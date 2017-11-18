@@ -1,4 +1,4 @@
-package no.nowak.gpstracker
+package no.nowak.gpstracker.core.device
 
 import javax.persistence.Entity
 
