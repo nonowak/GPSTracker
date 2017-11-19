@@ -1,0 +1,10 @@
+spring:
+    datasource:
+        password: 1
+        username: postgres
+        url: jdbc:postgresql://localhost:5432/gps-tracker
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: create

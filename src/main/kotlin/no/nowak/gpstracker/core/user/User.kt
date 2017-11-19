@@ -5,7 +5,7 @@ import no.nowak.gpstracker.core.user.userDetails.Role
 import no.nowak.gpstracker.core.user.userDetails.UserDetails
 import javax.persistence.*
 
-@Entity
+@Entity(name = "[user]")
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

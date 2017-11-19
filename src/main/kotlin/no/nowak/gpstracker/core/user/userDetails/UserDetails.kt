@@ -7,8 +7,11 @@ import javax.persistence.*
 data class UserDetails(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long,
+
         val firstName: String = "",
         val lastName: String = "",
+
         @OneToOne
         val address: Address?
 )
