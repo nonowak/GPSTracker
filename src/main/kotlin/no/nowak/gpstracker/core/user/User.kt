@@ -1,15 +1,22 @@
 package no.nowak.gpstracker.core.user
 
 import no.nowak.gpstracker.core.password.Password
-import javax.persistence.Entity
-import javax.persistence.OneToOne
+import no.nowak.gpstracker.core.user.userDetails.Role
+import no.nowak.gpstracker.core.user.userDetails.UserDetails
+import javax.persistence.*
 
 @Entity
 data class User(
-        val name: String?,
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long,
         val emailAddress: String,
         @OneToOne
         val password: Password,
         @OneToOne
-        val userDetails: UserDetails?
+        val userDetails: UserDetails?,
+        val role: Role = Role.USER,
+
+        @OneToMany(mappedBy = "user")
+        val devices: List<UserDevice> = emptyList()
 )

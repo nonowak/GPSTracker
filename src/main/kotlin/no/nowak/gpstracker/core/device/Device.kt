@@ -1,8 +1,14 @@
 package no.nowak.gpstracker.core.device
 
-import javax.persistence.Entity
+import no.nowak.gpstracker.core.user.UserDevice
+import javax.persistence.*
 
 @Entity
-class Device (
+class Device(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long,
 
+        @OneToMany(mappedBy = "device")
+        val user: List<UserDevice> = emptyList()
 )
