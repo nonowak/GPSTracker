@@ -12,6 +12,8 @@ data class Password(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long,
         val currentHash: String,
+
         val previousHash: String?,
-        val modifiedOn: LocalDateTime
+
+        val modifiedOn: LocalDateTime?
 )
