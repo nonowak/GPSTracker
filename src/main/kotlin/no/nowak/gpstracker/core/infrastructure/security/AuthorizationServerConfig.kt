@@ -1,7 +1,6 @@
 package no.nowak.gpstracker.core.infrastructure.security
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -11,7 +10,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
+import javax.sql.DataSource
+
 
 @Configuration
 @EnableAuthorizationServer
@@ -22,6 +23,9 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
     @Autowired
     lateinit var userDetailsService: UserDetailsService
+
+    @Autowired
+    lateinit var dataSource: DataSource
 
     override fun configure(clients: ClientDetailsServiceConfigurer?) {
         clients!!.inMemory()
@@ -44,5 +48,5 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
     }
 
     @Bean
-    fun tokenStore() = InMemoryTokenStore()
+    fun tokenStore() = JdbcTokenStore(dataSource)
 }

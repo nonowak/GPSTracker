@@ -1,6 +1,7 @@
 package no.nowak.gpstracker.core.user.userDetails
 
 import no.nowak.gpstracker.core.address.Address
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
@@ -14,4 +15,4 @@ data class UserDetails(
 
         @OneToOne
         val address: Address?
-)
+) : Serializable

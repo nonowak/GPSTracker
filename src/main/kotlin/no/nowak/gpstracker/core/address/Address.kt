@@ -1,5 +1,6 @@
 package no.nowak.gpstracker.core.address
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
@@ -10,7 +11,7 @@ data class Address(
 
         @OneToOne
         val country: Country
-)
+) : Serializable
 
 @Entity
 data class Country(
@@ -19,4 +20,4 @@ data class Country(
         val id: Long,
 
         val name: String
-)
+) : Serializable

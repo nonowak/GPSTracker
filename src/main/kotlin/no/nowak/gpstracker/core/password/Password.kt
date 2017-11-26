@@ -1,5 +1,6 @@
 package no.nowak.gpstracker.core.password
 
+import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -16,4 +17,4 @@ data class Password(
         val previousHash: String?,
 
         val modifiedOn: LocalDateTime?
-)
+) : Serializable

@@ -3,6 +3,7 @@ package no.nowak.gpstracker.core.user
 import no.nowak.gpstracker.core.password.Password
 import no.nowak.gpstracker.core.user.userDetails.Role
 import no.nowak.gpstracker.core.user.userDetails.UserDetails
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
@@ -20,4 +21,4 @@ data class User(
 
         @OneToMany(mappedBy = "user")
         val devices: List<UserDevice> = emptyList()
-)
+) : Serializable
