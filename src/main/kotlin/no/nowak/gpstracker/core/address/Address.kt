@@ -7,7 +7,7 @@ import javax.persistence.*
 data class Address(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
+        val id: Int,
 
         @OneToOne
         val country: Country
@@ -17,7 +17,7 @@ data class Address(
 data class Country(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
+        val id: Int,
 
         val name: String
 ) : Serializable

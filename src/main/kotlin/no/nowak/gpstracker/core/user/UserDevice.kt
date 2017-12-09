@@ -1,7 +1,7 @@
 package no.nowak.gpstracker.core.user
 
 import no.nowak.gpstracker.core.device.Device
-import no.nowak.gpstracker.core.user.userDetails.Role
+import no.nowak.gpstracker.core.device.Permission
 import java.io.Serializable
 import javax.persistence.*
 
@@ -22,7 +22,7 @@ data class UserDevice(
         val device: Device,
 
         @Enumerated(EnumType.STRING)
-        val role: Role = Role.USER
+        val role: Permission = Permission.USER
 ) {
     @Embeddable
     data class UserDeviceId(

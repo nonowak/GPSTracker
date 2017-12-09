@@ -11,7 +11,7 @@ import javax.persistence.Id
 data class Password(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
+        val id: Int,
         val currentHash: String,
 
         val previousHash: String?,

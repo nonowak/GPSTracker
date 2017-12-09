@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 class CustomUserDetails(private val user: User) : UserDetails {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf(SimpleGrantedAuthority("ROLE_${user.role.name}"))
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
 
     override fun isEnabled(): Boolean = true
 

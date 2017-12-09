@@ -8,7 +8,7 @@ import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Service
 
 @Service("authorizationService")
-@Profile("fakeAuthorization")
+@Profile("fakeAuthorizationService")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class FakeAuthorizationService(val userRepository: UserRepository) : AuthorizationService {
     override fun getCurrentUser(): User = userRepository.findOne(1)

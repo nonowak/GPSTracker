@@ -1,13 +1,23 @@
 package no.nowak.gpstracker.core.user
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import no.nowak.gpstracker.core.infrastructure.Paths.USER_PATH
+import no.nowak.gpstracker.core.user.dto.UserRegisterDTO
+import no.nowak.gpstracker.core.userDetails.UserDetails
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(USER_PATH)
 interface UserApi {
 
-    @GetMapping("/details")
-    fun userDetails(): User
+    companion object {
+        const val DETAILS_PATH = "/details"
+        const val REGISTER_PATH = "/register"
+    }
+
+    @GetMapping(DETAILS_PATH)
+    fun getUserDetails(): UserDetails
+
+    @PostMapping(REGISTER_PATH)
+    fun registerUser(@RequestBody @Valid userRegisterDTO: UserRegisterDTO): String
 }
