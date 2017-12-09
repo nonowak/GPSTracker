@@ -30,3 +30,4 @@ nbdist/
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
+src/main/resources/application-dev.yml
