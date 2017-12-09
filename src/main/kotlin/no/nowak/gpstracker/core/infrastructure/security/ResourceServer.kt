@@ -25,6 +25,7 @@ class ResourceServer : ResourceServerConfigurerAdapter() {
                 .authenticationEntryPoint { _, response, _ -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED) }
                 .and()
                 .authorizeRequests()
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers("/**").hasRole("USER")
                 .and()
                 .httpBasic().disable()
