@@ -15,7 +15,8 @@
 *.iws
 *.iml
 *.ipr
-out/
+*/application-dev.yml
+/out
 
 ### NetBeans ###
 nbproject/private/
