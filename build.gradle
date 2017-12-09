@@ -48,6 +48,8 @@ dependencies {
     compile('org.springframework.security:spring-security-jwt')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework:spring-jdbc')
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
