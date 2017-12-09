@@ -10,7 +10,6 @@ class UserService(val userRepository: UserRepository) {
 
     fun registerUser(userRegisterDTO: UserRegisterDTO): String{
         val email = userRegisterDTO.email
-
         if(userRepository.findByEmailAddress(email) != null) throw ServiceException(HttpStatus.CONFLICT, "User with this email exists")
 
         return email

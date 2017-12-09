@@ -1,8 +1,8 @@
 spring:
     datasource:
-        password: 1
-        username: postgres
-        url: jdbc:postgresql://localhost:5432/gps-tracker
+        password: ${DATABASE_PASSWORD}
+        username: ${DATABASE_USERNAME}
+        url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_POST}/${DATABASE_NAME}
         driver-class-name: org.postgresql.Driver
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -17,3 +17,15 @@ spring:
                     char_set: UTF-8
                 hbm2ddl:
                     import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+    mail:
+        host: smtp.gmail.com
+        password: ${MAIL_PASSWORD}
+        port: 587
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enabled: true
+                        requied: true
+        username: ${MAIL_USERNAME}
