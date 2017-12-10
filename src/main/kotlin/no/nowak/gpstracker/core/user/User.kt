@@ -10,11 +10,11 @@ import javax.persistence.*
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        val id: Int? = null,
         val emailAddress: String,
-        @OneToOne
+        @OneToOne(cascade = arrayOf(CascadeType.ALL))
         val password: Password,
-        @OneToOne
+        @OneToOne(cascade = arrayOf(CascadeType.ALL))
         val userDetails: UserDetails,
         val enabled: Boolean = false,
 

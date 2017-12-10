@@ -11,10 +11,10 @@ import javax.persistence.Id
 data class Password(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        val id: Int? = null,
         val currentHash: String,
 
-        val previousHash: String?,
+        val previousHash: String? = "",
 
-        val modifiedOn: LocalDateTime?
+        val modifiedOn: LocalDateTime? = null
 ) : Serializable

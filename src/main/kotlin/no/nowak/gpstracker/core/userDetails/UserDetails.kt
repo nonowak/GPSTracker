@@ -10,16 +10,16 @@ import javax.persistence.*
 data class UserDetails(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
+        val id: Int? = null,
 
         val firstName: String = "",
         val lastName: String = "",
 
         @OneToOne
-        val address: Address?,
+        val address: Address? = null,
 
         @JsonIgnore
         val activationKey: String = UUID.randomUUID().toString(),
         @JsonIgnore
-        val resetPasswordKey: String?
+        val resetPasswordKey: String? = ""
 ) : Serializable

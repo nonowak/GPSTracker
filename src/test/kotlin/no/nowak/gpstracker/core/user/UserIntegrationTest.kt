@@ -37,6 +37,9 @@ class UserIntegrationTest {
     @Autowired
     lateinit var userDetailsRepository: UserDetailsRepository
 
+    @Autowired
+    lateinit var userRepository: UserRepository
+
     lateinit var mvc: MockMvc
 
     @Before
@@ -59,9 +62,26 @@ class UserIntegrationTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 //Then
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isConflict)
                 .andExpect(jsonPath("$.message", Matchers.`is`("User with this email exists")))
+    }
+
+    @Test
+    fun `register user correct`() {
+        //Given
+        val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()
+        val url = TestUtil.getPathForMethod(UserApi::registerUser, UserApi::class.java)
+        val body = TestUtil.convertObjectToJson(userRegisterDTO)
+        //When
+        val result = mvc.perform(post(url)
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                //Then
+                .andExpect(status().isOk)
+                .andReturn()
+
+        val actualUsers = userRepository.findAll()
+        Assert.assertTrue(actualUsers.any { it.emailAddress == userRegisterDTO.email })
     }
 
     @Test
