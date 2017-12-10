@@ -11,12 +11,12 @@ data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = null,
-        val emailAddress: String,
-        @OneToOne(cascade = arrayOf(CascadeType.ALL))
+        var emailAddress: String,
+        @OneToOne(cascade = [(CascadeType.ALL)])
         val password: Password,
-        @OneToOne(cascade = arrayOf(CascadeType.ALL))
+        @OneToOne(cascade = [(CascadeType.ALL)])
         val userDetails: UserDetails,
-        val enabled: Boolean = false,
+        var enabled: Boolean = false,
 
         @OneToMany(mappedBy = "user")
         val devices: List<UserDevice> = emptyList()

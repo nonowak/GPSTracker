@@ -26,6 +26,11 @@ spring:
                 smtp:
                     auth: true
                     starttls:
-                        enabled: true
+                        enable: true
                         requied: true
         username: ${MAIL_USERNAME}
+
+front:
+    protocol: ${FRONT_PROTOCOL}
+    hostname: ${FRONT_HOSTNAME}
+    port: ${FRONT_PORT}

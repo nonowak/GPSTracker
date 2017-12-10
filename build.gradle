@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.1+'
+        kotlinVersion = '1.2+'
         springBootVersion = '1.5.8.RELEASE'
     }
     repositories {
@@ -52,7 +52,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-mail")
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
-    runtime('org.springframework.boot:spring-boot-devtools')
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-devtools")
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')

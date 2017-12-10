@@ -12,14 +12,14 @@ data class UserDetails(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = null,
 
-        val firstName: String = "",
-        val lastName: String = "",
+        var firstName: String = "",
+        var lastName: String = "",
 
         @OneToOne
-        val address: Address? = null,
+        var address: Address? = null,
 
         @JsonIgnore
-        val activationKey: String = UUID.randomUUID().toString(),
+        var activationKey: String = UUID.randomUUID().toString(),
         @JsonIgnore
-        val resetPasswordKey: String? = ""
+        var resetPasswordKey: String? = ""
 ) : Serializable

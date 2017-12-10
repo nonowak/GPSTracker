@@ -1,25 +1,26 @@
 package no.nowak.gpstracker.core.user
 
 import no.nowak.gpstracker.TestUtil
+import no.nowak.gpstracker.core.infrastructure.mail.EmailSender
 import no.nowak.gpstracker.core.userDetails.UserDetailsRepository
 import no.nowak.gpstracker.stubs.UserStub
-import org.bouncycastle.crypto.tls.ContentType
 import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.MethodSorters
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -29,16 +30,18 @@ import org.springframework.web.context.WebApplicationContext
 @RunWith(SpringRunner::class)
 @ActiveProfiles("fakeAuthorizationService", "test", "dev")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class UserIntegrationTest {
 
     @Autowired
     lateinit var applicationContext: WebApplicationContext
 
     @Autowired
-    lateinit var userDetailsRepository: UserDetailsRepository
+    lateinit var userRepository: UserRepository
 
     @Autowired
-    lateinit var userRepository: UserRepository
+    lateinit var userDetailsRepository: UserDetailsRepository
 
     lateinit var mvc: MockMvc
 
@@ -51,7 +54,7 @@ class UserIntegrationTest {
     }
 
     @Test
-    fun `register user should return conflict`() {
+    fun `1register user should return conflict`() {
         //Given
         val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()
         userRegisterDTO.email = "test@test.pl"
@@ -67,25 +70,7 @@ class UserIntegrationTest {
     }
 
     @Test
-    fun `register user correct`() {
-        //Given
-        val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()
-        val url = TestUtil.getPathForMethod(UserApi::registerUser, UserApi::class.java)
-        val body = TestUtil.convertObjectToJson(userRegisterDTO)
-        //When
-        val result = mvc.perform(post(url)
-                .content(body)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                //Then
-                .andExpect(status().isOk)
-                .andReturn()
-
-        val actualUsers = userRepository.findAll()
-        Assert.assertTrue(actualUsers.any { it.emailAddress == userRegisterDTO.email })
-    }
-
-    @Test
-    fun `getUserDetails should return correct`() {
+    fun `11getUserDetails should return correct`() {
         //Given
         val url = TestUtil.getPathForMethod(UserApi::getUserDetails, UserApi::class.java)
         val expectedUserDetails = userDetailsRepository.findOne(1)
@@ -97,4 +82,37 @@ class UserIntegrationTest {
                 .andExpect(jsonPath("$.firstName", Matchers.`is`(expectedUserDetails.firstName)))
                 .andExpect(jsonPath("$.lastName", Matchers.`is`(expectedUserDetails.lastName)))
     }
+
+    @Test
+    fun `2registerUser correct`() {
+        //Given
+        val url = TestUtil.getPathForMethod(UserApi::registerUser, UserApi::class.java)
+        val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()
+        val body = TestUtil.convertObjectToJson(userRegisterDTO)
+        //When
+        mvc.perform(post(url)
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                //Then
+                .andExpect(status().isOk)
+
+        val actualUsers = userRepository.findAll()
+        Assert.assertTrue(actualUsers.any { it.emailAddress == userRegisterDTO.email })
+    }
+
+    @Test
+    fun `3activateUser correct`(){
+        //Given
+        val url = TestUtil.getPathForMethod(UserApi::activateUser, UserApi::class.java)
+        val user = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().email)!!
+        val activationKey = user.userDetails.activationKey
+        //When
+        mvc.perform(get(url)
+                .param(UserApi.ACTIVATION_KEY, activationKey))
+                .andExpect(status().isOk)
+        //Then
+        val actualUser = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().email)!!
+        Assert.assertEquals(true, actualUser.enabled)
+        Assert.assertEquals("", actualUser.userDetails.activationKey)
+    }\
 }
