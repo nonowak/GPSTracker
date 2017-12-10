@@ -31,8 +31,8 @@ class UserService(private val userRepository: UserRepository,
 
     fun activateUser(activationKey: String) {
         val user = getByActivationKey(activationKey)
+        if(user.enabled) throw ServiceException(HttpStatus.BAD_REQUEST, "User is enabled")
         user.enabled = true
-        user.userDetails.activationKey = ""
         save(user)
     }
 

@@ -19,7 +19,7 @@ class UserController(val authorizationService: AuthorizationService,
     override fun registerUser(@RequestBody @Valid userRegisterDTO: UserRegisterDTO): String
             = userService.registerUser(userRegisterDTO)
 
-    @GetMapping(UserApi.REGISTER_PATH)
+    @GetMapping(UserApi.ACTIVATION_PATH)
     override fun activateUser(@RequestParam(value = UserApi.ACTIVATION_KEY, required = true) activationKey: String) =
             userService.activateUser(activationKey)
 }

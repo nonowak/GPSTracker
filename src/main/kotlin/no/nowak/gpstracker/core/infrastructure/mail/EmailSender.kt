@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
+import java.util.concurrent.Executors
 import javax.mail.MessagingException
 
 @Service
@@ -18,11 +19,14 @@ class EmailSender(private val javaMailSender: JavaMailSender) {
             val helper = MimeMessageHelper(mail)
             helper.setFrom(sender)
             helper.setSubject(subject)
-            helper.setText(content)
+            helper.setText(content, true)
             helper.setTo(recipient)
         } catch (e: MessagingException) {
             e.printStackTrace()
         }
-        javaMailSender.send(mail)
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute({ javaMailSender.send(mail) })
+        executor.shutdown()
+
     }
 }

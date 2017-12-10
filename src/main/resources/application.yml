@@ -29,6 +29,11 @@ spring:
                         enable: true
                         requied: true
         username: ${MAIL_USERNAME}
+    jackson:
+        serialization:
+            WRITE_DATES_AS_TIMESTAMPS: false
+            WRITE_DURATIONS_AS_TIMESTAMPS: false
+
 
 front:
     protocol: ${FRONT_PROTOCOL}

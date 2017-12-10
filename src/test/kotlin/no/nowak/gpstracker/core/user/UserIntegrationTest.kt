@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -54,7 +55,21 @@ class UserIntegrationTest {
     }
 
     @Test
-    fun `1register user should return conflict`() {
+    fun `1getUserDetails should return correct`() {
+        //Given
+        val url = TestUtil.getPathForMethod(UserApi::getUserDetails, UserApi::class.java)
+        val expectedUserDetails = userDetailsRepository.findOne(1)
+        //When
+        mvc.perform(get(url))
+                //Then
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.id", Matchers.`is`(expectedUserDetails.id)))
+                .andExpect(jsonPath("$.firstName", Matchers.`is`(expectedUserDetails.firstName)))
+                .andExpect(jsonPath("$.lastName", Matchers.`is`(expectedUserDetails.lastName)))
+    }
+
+    @Test
+    fun `11registerUser should return conflict`() {
         //Given
         val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()
         userRegisterDTO.email = "test@test.pl"
@@ -70,17 +85,19 @@ class UserIntegrationTest {
     }
 
     @Test
-    fun `11getUserDetails should return correct`() {
+    fun `111registerUser should return wrong password`() {
         //Given
-        val url = TestUtil.getPathForMethod(UserApi::getUserDetails, UserApi::class.java)
-        val expectedUserDetails = userDetailsRepository.findOne(1)
+        val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()
+        userRegisterDTO.password = "12345678"
+        val url = TestUtil.getPathForMethod(UserApi::registerUser, UserApi::class.java)
+        val body = TestUtil.convertObjectToJson(userRegisterDTO)
         //When
-        mvc.perform(get(url))
+        mvc.perform(post(url)
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 //Then
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.id", Matchers.`is`(expectedUserDetails.id)))
-                .andExpect(jsonPath("$.firstName", Matchers.`is`(expectedUserDetails.firstName)))
-                .andExpect(jsonPath("$.lastName", Matchers.`is`(expectedUserDetails.lastName)))
+                .andExpect(status().isBadRequest)
+                .andExpect(jsonPath("$.message", Matchers.`is`("Password must contains at least one number, one upper case and be 8")))
     }
 
     @Test
@@ -101,7 +118,7 @@ class UserIntegrationTest {
     }
 
     @Test
-    fun `3activateUser correct`(){
+    fun `3activateUser correct`() {
         //Given
         val url = TestUtil.getPathForMethod(UserApi::activateUser, UserApi::class.java)
         val user = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().email)!!
@@ -113,6 +130,35 @@ class UserIntegrationTest {
         //Then
         val actualUser = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().email)!!
         Assert.assertEquals(true, actualUser.enabled)
-        Assert.assertEquals("", actualUser.userDetails.activationKey)
-    }\
+    }
+
+    @Test
+    fun `4activateUser user is enabled`() {
+        //Given
+        val url = TestUtil.getPathForMethod(UserApi::activateUser, UserApi::class.java)
+        val user = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().email)!!
+        val activationKey = user.userDetails.activationKey
+        //When
+        mvc.perform(get(url)
+                .param(UserApi.ACTIVATION_KEY, activationKey))
+                //Then
+                .andExpect(status().isBadRequest)
+                .andExpect(jsonPath("$.message", Matchers.`is`("User is enabled")))
+
+    }
+
+    @Test
+    fun `5activateUser wrong activation key`() {
+        //Given
+        val url = TestUtil.getPathForMethod(UserApi::activateUser, UserApi::class.java)
+        val user = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().email)!!
+        val activationKey = user.userDetails.activationKey + "wrong"
+        //When
+        mvc.perform(get(url)
+                .param(UserApi.ACTIVATION_KEY, activationKey))
+                //Then
+                .andExpect(status().isNotFound)
+                .andExpect(jsonPath("$.message", Matchers.`is`("User with this activationKey not found")))
+
+    }
 }

@@ -17,7 +17,6 @@ data class User(
         @OneToOne(cascade = [(CascadeType.ALL)])
         val userDetails: UserDetails,
         var enabled: Boolean = false,
-
         @OneToMany(mappedBy = "user")
         val devices: List<UserDevice> = emptyList()
 ) : Serializable
