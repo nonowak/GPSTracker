@@ -6,7 +6,7 @@ class UserStub {
     companion object {
         fun getCorrectUserRegisterDTO(): UserRegisterDTO =
                 UserRegisterDTO(
-                        email = "test1@gmail.com",
+                        emailAddress = "test1@gmail.com",
                         password = "Test1234"
                 )
     }

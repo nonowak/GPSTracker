@@ -1,7 +1,9 @@
 package no.nowak.gpstracker.core.user
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import no.nowak.gpstracker.core.infrastructure.Tools
 import no.nowak.gpstracker.core.password.Password
-import no.nowak.gpstracker.core.userDetails.UserDetails
+import no.nowak.gpstracker.core.userDetails.UserInfo
 import java.io.Serializable
 import javax.persistence.*
 
@@ -15,8 +17,10 @@ data class User(
         @OneToOne(cascade = [(CascadeType.ALL)])
         val password: Password,
         @OneToOne(cascade = [(CascadeType.ALL)])
-        val userDetails: UserDetails,
+        val userInfo: UserInfo,
         var enabled: Boolean = false,
+        @JsonIgnore
+        var activationKey: String = Tools.generateUUIDString(),
         @OneToMany(mappedBy = "user")
         val devices: List<UserDevice> = emptyList()
 ) : Serializable

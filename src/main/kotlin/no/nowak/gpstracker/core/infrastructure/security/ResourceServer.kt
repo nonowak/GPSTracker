@@ -25,6 +25,7 @@ class ResourceServer : ResourceServerConfigurerAdapter() {
                 .authorizeRequests()
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers("${Paths.USER_PATH}${UserApi.REGISTER_PATH}/**").permitAll()
+                .antMatchers("${Paths.USER_PATH}${UserApi.REGISTER_PATH}/**").permitAll()
                 .antMatchers("/**").hasRole("USER")
                 .and()
                 .httpBasic().disable()

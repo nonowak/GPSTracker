@@ -11,7 +11,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-data class UserDetails(
+data class UserInfo(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = null,
@@ -21,11 +21,6 @@ data class UserDetails(
 
         @OneToOne
         var address: Address? = null,
-
-        @JsonIgnore
-        var activationKey: String = Tools.generateUUIDString(),
-        @JsonIgnore
-        var resetPasswordKey: String? = "",
 
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         val createdOn: LocalDateTime = LocalDateTime.now()

@@ -4,9 +4,9 @@ import no.nowak.gpstracker.core.infrastructure.security.authorizationService.Aut
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-internal class UserDetailsController(private val authorizationService: AuthorizationService) : UserDetailsApi {
+internal class UserInfoController(private val authorizationService: AuthorizationService) : UserInfoApi {
 
-    override fun getUserDetails(): UserDetails =
-            authorizationService.getCurrentUser().userDetails
+    override fun getUserInfo(): UserInfo =
+            authorizationService.getCurrentUser().userInfo
 
 }

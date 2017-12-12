@@ -1,9 +1,9 @@
-package no.nowak.gpstracker.core.user.dto
+package no.nowak.gpstracker.core.password.DTO
 
 import org.hibernate.validator.constraints.Email
 import javax.validation.constraints.Pattern
 
-class UserResetPasswordDTO(
+class ResetPasswordDTO(
         @field:Email
         var emailAddress: String,
 
