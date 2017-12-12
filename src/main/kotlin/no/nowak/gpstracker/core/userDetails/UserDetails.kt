@@ -2,6 +2,7 @@ package no.nowak.gpstracker.core.userDetails
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import no.nowak.gpstracker.core.address.Address
+import no.nowak.gpstracker.core.infrastructure.Tools
 import no.nowak.gpstracker.core.infrastructure.converters.LocalDateTimeAttributeConverter
 import java.io.Serializable
 import java.time.LocalDate
@@ -22,7 +23,7 @@ data class UserDetails(
         var address: Address? = null,
 
         @JsonIgnore
-        var activationKey: String = UUID.randomUUID().toString(),
+        var activationKey: String = Tools.generateUUIDString(),
         @JsonIgnore
         var resetPasswordKey: String? = "",
 

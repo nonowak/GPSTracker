@@ -10,14 +10,12 @@ import javax.mail.MessagingException
 @Service
 class EmailSender(private val javaMailSender: JavaMailSender) {
 
-    @Value("\${spring.mail.username}")
-    private val sender: String = ""
 
     fun sendMail(subject: String, content: String, recipient: String) {
         val mail = javaMailSender.createMimeMessage()
         try {
             val helper = MimeMessageHelper(mail)
-            helper.setFrom(sender)
+            helper.setFrom("Noreply GPSTracker")
             helper.setSubject(subject)
             helper.setText(content, true)
             helper.setTo(recipient)
