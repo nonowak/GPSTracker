@@ -78,13 +78,12 @@ class PasswordIntegrationTest {
                 .param(PasswordApi.RESET_PASSWORD_KEY, resetPasswordKey)
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk)
         //Then
         val actualPassword = passwordRepository.findOne(1)
         Assert.assertEquals(LocalDateTime.now().toLocalDate(), actualPassword.modifiedOn?.toLocalDate())
-        Assert.assertEquals("123456", actualPassword.previousHash)
         Assert.assertTrue(BCryptPasswordEncoder().matches(resetPasswordDTO.password, actualPassword.currentHash))
+        Assert.assertTrue(BCryptPasswordEncoder().matches("TesT123456", actualPassword.previousHash))
         Assert.assertEquals("", actualPassword.resetKey)
     }
 
@@ -101,7 +100,6 @@ class PasswordIntegrationTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 //Then
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isNotFound)
                 .andExpect(jsonPath("$.message", Matchers.`is`("Password for this resetKey and user emailAddress not found")))
     }
@@ -121,7 +119,7 @@ class PasswordIntegrationTest {
     }
 
     @Test
-    fun `5resetPassword user hash the same as previous`() {
+    fun `5resetPassword user hash the same as current`() {
         //Given
         val url = getPathForMethod(PasswordApi::resetPassword, PasswordApi::class.java)
         val resetPasswordKey = passwordRepository.findOne(1).resetKey
@@ -135,5 +133,23 @@ class PasswordIntegrationTest {
                 //Then
                 .andExpect(status().isBadRequest)
                 .andExpect(jsonPath("$.message", Matchers.`is`("Password is the same as your current")))
+    }
+
+    @Test
+    fun `6resetPassword user hash the same as previous`() {
+        //Given
+        val url = getPathForMethod(PasswordApi::resetPassword, PasswordApi::class.java)
+        val resetPasswordKey = passwordRepository.findOne(1).resetKey
+        val resetPasswordDTO = PasswordStub.getCorrectResetPasswordDTO()
+        resetPasswordDTO.password = "TesT123456"
+        val body = convertObjectToJson(resetPasswordDTO)
+        //When
+        mvc.perform(put(url)
+                .param(PasswordApi.RESET_PASSWORD_KEY, resetPasswordKey)
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                //Then
+                .andExpect(status().isBadRequest)
+                .andExpect(jsonPath("$.message", Matchers.`is`("Password is the same as your previous")))
     }
 }

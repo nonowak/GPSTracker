@@ -1,6 +1,6 @@
 INSERT INTO password (current_hash, modified_on, previous_hash, locked_during_reset)
 VALUES
-  ('123456', NULL, NULL, FALSE);
+  ('$2a$10$f6d6Rzr30AdZZamZu2DlUu23/8BwwA6i4QsqCNqqq1SgTIUmKDov6', NULL, NULL, FALSE);--TesT123456--
 
 INSERT INTO user_info(first_name, last_name)
 VALUES
