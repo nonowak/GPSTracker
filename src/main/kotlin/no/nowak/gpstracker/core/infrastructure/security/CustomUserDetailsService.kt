@@ -1,7 +1,9 @@
 package no.nowak.gpstracker.core.infrastructure.security
 
+import no.nowak.gpstracker.core.infrastructure.exceptions.ServiceException
 import no.nowak.gpstracker.core.user.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -16,8 +18,8 @@ class CustomUserDetailsService : UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByEmailAddress(username) ?: throw UsernameNotFoundException("User was not found in the database")
-        if (!user.password.lockedDuringReset) throw UnauthorizedUserException("User is locked")
-        if (!user.enabled) throw UnauthorizedUserException("User not enabled")
+        if (user.password.lockedDuringReset) throw ServiceException(HttpStatus.UNAUTHORIZED, "User is locked")
+        if (!user.enabled) throw ServiceException(HttpStatus.UNAUTHORIZED, "User not enabled")
         return CustomUserDetails(user)
     }
 }

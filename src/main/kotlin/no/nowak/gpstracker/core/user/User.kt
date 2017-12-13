@@ -3,6 +3,7 @@ package no.nowak.gpstracker.core.user
 import com.fasterxml.jackson.annotation.JsonIgnore
 import no.nowak.gpstracker.core.infrastructure.Tools
 import no.nowak.gpstracker.core.password.Password
+import no.nowak.gpstracker.core.user.Role.USER
 import no.nowak.gpstracker.core.userDetails.UserInfo
 import java.io.Serializable
 import javax.persistence.*
@@ -22,5 +23,13 @@ data class User(
         @JsonIgnore
         var activationKey: String = Tools.generateUUIDString(),
         @OneToMany(mappedBy = "user")
-        val devices: List<UserDevice> = emptyList()
+        val devices: List<UserDevice> = emptyList(),
+
+        @Enumerated(EnumType.STRING)
+        val role: Role = USER
 ) : Serializable
+
+enum class Role {
+    USER,
+    ADMIN
+}
