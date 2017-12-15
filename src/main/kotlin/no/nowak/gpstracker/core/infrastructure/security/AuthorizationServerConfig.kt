@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import javax.sql.DataSource
 
 
-//@Profile("!test")
 @Configuration
 @EnableAuthorizationServer
 class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {

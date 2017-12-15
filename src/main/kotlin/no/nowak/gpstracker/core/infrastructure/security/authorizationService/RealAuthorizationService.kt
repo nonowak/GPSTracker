@@ -1,5 +1,6 @@
 package no.nowak.gpstracker.core.infrastructure.security.authorizationService
 
+import no.nowak.gpstracker.core.infrastructure.profileRegex.ProfileRegex
 import no.nowak.gpstracker.core.infrastructure.security.CustomUserDetails
 import no.nowak.gpstracker.core.user.User
 import no.nowak.gpstracker.core.user.UserRepository
@@ -9,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 @Service("authorizationService")
-@Profile("!fakeAuthorizationService")
+@ProfileRegex("((!userFakeAuthorizationService)|(!adminFakeAuthorizationService))")
 class RealAuthorizationService(val userRepository: UserRepository) : AuthorizationService {
     override fun getCurrentUser(): User {
         val emailAddress = (SecurityContextHolder.getContext().authentication.principal as CustomUserDetails).username

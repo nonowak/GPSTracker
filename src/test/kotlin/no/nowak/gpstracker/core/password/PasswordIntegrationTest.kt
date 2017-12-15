@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDateTime
 
 @RunWith(SpringRunner::class)
-@ActiveProfiles("fakeAuthorizationService", "test", "dev")
+@ActiveProfiles("userFakeAuthorizationService", "test", "dev")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
