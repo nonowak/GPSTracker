@@ -20,7 +20,7 @@ class UserService(private val userRepository: UserRepository,
         val user = User(
                 emailAddress = email,
                 password = Password(
-                        currentHash = passwordService.encode(userRegisterDTO.password)
+                        currentHash = userRegisterDTO.password
                 ),
                 userInfo = UserInfo()
         )

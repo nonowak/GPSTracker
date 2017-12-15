@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import javax.sql.DataSource
 
 
+//@Profile("!test")
 @Configuration
 @EnableAuthorizationServer
 class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
@@ -35,7 +36,7 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
                 .withClient("gpsTracker")
                 .scopes("read", "write")
                 .authorizedGrantTypes("refresh_token", "password")
-                .authorities("ROLE_USER")
+                .authorities("ROLE_USER", "ROLE_ADMIN")
                 .accessTokenValiditySeconds(300)
     }
 
@@ -50,7 +51,6 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
         security!!.allowFormAuthenticationForClients()
                 .passwordEncoder(encoder())
     }
-
 
     @Bean
     fun tokenStore() = JdbcTokenStore(dataSource)
