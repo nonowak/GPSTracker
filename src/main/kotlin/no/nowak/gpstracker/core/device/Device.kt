@@ -11,5 +11,13 @@ class Device(
         val id: Int,
 
         @OneToMany(mappedBy = "device")
-        val user: List<UserDevice> = emptyList()
+        val user: List<UserDevice> = emptyList(),
+
+        @Enumerated(EnumType.STRING)
+        val type: Type
 ) : Serializable
+
+enum class Type {
+    GPSTRACKER;
+}
+
