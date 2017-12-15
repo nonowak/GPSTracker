@@ -1,0 +1,35 @@
+package no.nowak.core.user
+
+import com.fasterxml.jackson.annotation.JsonIgnore
+import no.nowak.core.infrastructure.Tools
+import no.nowak.core.password.Password
+import no.nowak.core.user.Role.USER
+import no.nowak.core.userDetails.UserInfo
+import java.io.Serializable
+import javax.persistence.*
+
+@Entity
+@Table(name = "[user]")
+data class User(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int? = null,
+        var emailAddress: String,
+        @OneToOne(cascade = [(CascadeType.ALL)])
+        val password: Password,
+        @OneToOne(cascade = [(CascadeType.ALL)])
+        val userInfo: UserInfo,
+        var enabled: Boolean = false,
+        @JsonIgnore
+        var activationKey: String = Tools.generateUUIDString(),
+        @OneToMany(mappedBy = "user")
+        val devices: List<UserDevice> = emptyList(),
+
+        @Enumerated(EnumType.STRING)
+        val role: Role = USER
+) : Serializable
+
+enum class Role {
+    USER,
+    ADMIN
+}
