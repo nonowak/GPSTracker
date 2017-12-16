@@ -1,8 +1,0 @@
-GPSTracker_DB:
-  image: postgres:9.4
-  ports:
-    - "5432:5432"
-  environment:
-    POSTGRES_PASSWORD: 1
-    POSTGRES_USER: postgres
-    POSTGRES_DB: gps-tracker
