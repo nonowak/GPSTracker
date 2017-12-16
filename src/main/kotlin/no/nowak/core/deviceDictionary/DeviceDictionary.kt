@@ -1,6 +1,6 @@
 package no.nowak.core.deviceDictionary
 
-import no.nowak.core.device.Type
+import no.nowak.core.device.DeviceType
 import no.nowak.core.infrastructure.converters.LocalDateTimeAttributeConverter
 import no.nowak.core.user.User
 import org.hibernate.annotations.ColumnTransformer
@@ -18,12 +18,12 @@ data class DeviceDictionary(
 
         @OneToOne(cascade = [])
         val createdBy: User,
-        val enabled: Boolean = false,
+        var enabled: Boolean = false,
 
         @Column(unique = true)
         @ColumnTransformer(read = "pgp_sym_decrypt(token::bytea, 'gpsTracker123')", write = "pgp_sym_encrypt(?, 'gpsTracker123')")
         val token: String = "",
 
         @Enumerated(EnumType.STRING)
-        val deviceType: Type
+        val deviceType: DeviceType
 )

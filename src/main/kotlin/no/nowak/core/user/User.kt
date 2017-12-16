@@ -1,6 +1,8 @@
 package no.nowak.core.user
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import no.nowak.core.device.Device
+import no.nowak.core.device.Permission
 import no.nowak.core.infrastructure.Tools
 import no.nowak.core.password.Password
 import no.nowak.core.user.Role.USER
@@ -23,11 +25,30 @@ data class User(
         @JsonIgnore
         var activationKey: String = Tools.generateUUIDString(),
         @OneToMany(mappedBy = "user")
-        val devices: List<UserDevice> = emptyList(),
+        val devices: MutableList<UserDevice> = mutableListOf(),
 
         @Enumerated(EnumType.STRING)
         val role: Role = USER
-) : Serializable
+) : Serializable {
+
+    fun addDevice(device: Device, permission: Permission) {
+        var userDevice = UserDevice(
+                user = this,
+                device = device,
+                permission = permission
+        )
+        devices.add(userDevice)
+        device.users.add(userDevice)
+    }
+
+    fun removeDevice(device: Device) {
+        devices.filter { it.device == device }.map {
+            devices.remove(it)
+            it.device.users.remove(it)
+        }
+    }
+
+}
 
 enum class Role {
     USER,

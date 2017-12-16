@@ -14,19 +14,29 @@ data class UserDevice(
         @ManyToOne
         @MapsId("userId")
         @JoinColumn(name = "userId")
-        val user: User,
+        var user: User,
 
         @ManyToOne
         @MapsId("deviceId")
         @JoinColumn(name = "deviceId")
-        val device: Device,
+        var device: Device,
 
         @Enumerated(EnumType.STRING)
-        val role: Permission = Permission.USER
+        var permission: Permission = Permission.USER
 ) {
+    constructor(user: User, device: Device, permission: Permission) : this(
+            userDeviceId = UserDeviceId(
+                    userId = user.id,
+                    deviceId = device.id
+            ),
+            user = user,
+            device = device,
+            permission = permission
+    )
+
     @Embeddable
     data class UserDeviceId(
-            val userId: Long,
-            val deviceId: Long
+            val userId: Int?,
+            val deviceId: Int?
     ) : Serializable
 }

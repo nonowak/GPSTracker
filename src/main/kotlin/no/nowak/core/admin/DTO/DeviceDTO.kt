@@ -1,6 +1,6 @@
 package no.nowak.core.admin.DTO
 
-import no.nowak.core.device.Type
+import no.nowak.core.device.DeviceType
 import no.nowak.core.deviceDictionary.DeviceDictionary
 import no.nowak.core.infrastructure.converters.LocalDateTimeAttributeConverter
 import org.jetbrains.annotations.NotNull
@@ -10,11 +10,11 @@ import javax.validation.constraints.Pattern
 
 data class DeviceDTO(
         @field:NotNull
-        val deviceType: Type,
+        val deviceType: DeviceType,
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         val createdOn: LocalDateTime? = null,
         val createdByEmailAddress: String? = null,
-        @field:Pattern(regexp = "([0-9]{4}-[0-9]{4})", message = "Invalid token")
+        @field:Pattern(regexp = "([0-9]{4}-[0-9]{4})", message = "Invalid deviceDictionary")
         var token: String
 ) {
     constructor(deviceDictionary: DeviceDictionary) : this(

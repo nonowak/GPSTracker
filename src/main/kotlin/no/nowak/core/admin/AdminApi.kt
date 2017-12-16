@@ -6,10 +6,8 @@ import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import no.nowak.core.admin.DTO.DeviceDTO
 import no.nowak.core.infrastructure.Paths.ADMIN_PATH
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @Api(description = "Admin Controller", tags = ["Admin"])
@@ -23,9 +21,10 @@ interface AdminApi {
     @ApiOperation("Add new device")
     @ApiResponses(
             ApiResponse(code = 201, message = "Device added", response = DeviceDTO::class),
-            ApiResponse(code = 404, message = "Invalid token", response = String::class),
-            ApiResponse(code = 409, message = "Device with this token already exists", response = String::class)
+            ApiResponse(code = 404, message = "Invalid deviceDictionary", response = String::class),
+            ApiResponse(code = 409, message = "Device with this deviceDictionary already exists", response = String::class)
     )
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(DEVICE_PATH)
     fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO): DeviceDTO
 

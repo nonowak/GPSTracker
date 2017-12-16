@@ -4,7 +4,7 @@ import no.nowak.TestUtil.convertJsonToObject
 import no.nowak.TestUtil.convertObjectToJson
 import no.nowak.TestUtil.getPathForMethod
 import no.nowak.core.admin.DTO.DeviceDTO
-import no.nowak.core.device.Type
+import no.nowak.core.device.DeviceType
 import no.nowak.core.deviceDictionary.DeviceDictionaryRepository
 import no.nowak.stubs.DeviceStub
 import org.hamcrest.Matchers
@@ -57,13 +57,14 @@ class AdminIntegrationTest {
         val response = mvc.perform(post(url)
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isCreated)
                 .andReturn()
                 .response
         //Then
         val savedDeviceDTO = DeviceDTO(deviceDictionaryRepository.findOne(2))
         val responseBody: DeviceDTO = convertJsonToObject(response.contentAsString)
         Assert.assertTrue(savedDeviceDTO == responseBody)
-        Assert.assertEquals(Type.GPSTRACKER, responseBody.deviceType)
+        Assert.assertEquals(DeviceType.GPSTRACKER, responseBody.deviceType)
         Assert.assertEquals("admin@test.pl", responseBody.createdByEmailAddress)
     }
 
@@ -91,7 +92,7 @@ class AdminIntegrationTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.message", Matchers.`is`("Invalid token")))
+                .andExpect(jsonPath("$.message", Matchers.`is`("Invalid deviceDictionary")))
     }
 
     @Test
@@ -106,7 +107,7 @@ class AdminIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 //Then
                 .andExpect(status().isConflict)
-                .andExpect(jsonPath("$.message", Matchers.`is`("Device with this token already exists")))
+                .andExpect(jsonPath("$.message", Matchers.`is`("Device with this deviceDictionary already exists")))
     }
 
 }
