@@ -20,6 +20,8 @@ apply plugin: "kotlin-spring"
 apply plugin: "kotlin-jpa"
 apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
+apply plugin: "kotlin-noarg"
+
 
 group = 'no.nowak'
 version = '0.0.1-SNAPSHOT'

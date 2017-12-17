@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 @Service("authorizationService")
-@ProfileRegex("((!userFakeAuthorizationService)|(!adminFakeAuthorizationService))")
+@ProfileRegex("(((realAuthorizationService)|!userFakeAuthorizationService)|(!adminFakeAuthorizationService))")
 class RealAuthorizationService(val userRepository: UserRepository) : AuthorizationService {
     override fun getCurrentUser(): User {
         val emailAddress = (SecurityContextHolder.getContext().authentication.principal as CustomUserDetails).username
