@@ -69,11 +69,11 @@ void Sim808::checkModemStatus() {
 void Sim808::initGPRS(String APN) {
   setAPN(APN);
   String response = sendAT("AT+CIICR", 1000);
-//  while (!occurs(DEFAULT_RESPONSE, response)) {
-//    Serial.print(F("Initializing GPRS..."));
-//    Serial.println("ERROR: " + response);
-//    response = sendAT("AT+CIICR", 1000);
-//  };
+  while (!occurs(DEFAULT_RESPONSE, response)) {
+    Serial.print(F("Initializing GPRS..."));
+    Serial.println("ERROR: " + response);
+    response = sendAT("AT+CIICR", 1000);
+  };
   String ipAddress = getLocalIP();
   Serial.println("Initializing GPRS... .OK IP: " + ipAddress);
 }

@@ -7,9 +7,9 @@ Sim808 sim(&ss);
 String APN = "darmowy";
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   delay(100);
-  sim.begin(115200);
+  sim.begin(9600);
   delay(100);
   sim.initModem();
   delay(100);
