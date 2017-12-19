@@ -7,7 +7,7 @@ class Sim808 {
     String DEFAULT_RESPONSE = "OK";
     String sendAT(String command, int time);
     bool occurs(String command, String Response);
-    void setAPN(String APN);
+    void setGPSMode();
 
   public:
     Sim808(SoftwareSerial * ss);
@@ -16,4 +16,6 @@ class Sim808 {
     void checkModemStatus();
     void initGPRS(String APN);
     String getLocalIP();
+    void initGPS();
+    String getGPS();
 };

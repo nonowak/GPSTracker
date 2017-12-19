@@ -19,7 +19,7 @@ void Sim808::setAPN(String APN) {
     Serial.print(F("Setting APN..."));
     Serial.println("ERROR: " + response);
     response = sendAT("AT+CSTT=\"" + APN + "\",\"\",\"\"", 3000);
-    if (restartCounter < 5)
+    if (restartCounter < 3)
       restartCounter += 1;
     else sendAT("AT+CFUN=1,1", 1000);
   };
@@ -68,11 +68,15 @@ void Sim808::checkModemStatus() {
 
 void Sim808::initGPRS(String APN) {
   setAPN(APN);
+  int restartCounter = 0;
   String response = sendAT("AT+CIICR", 1000);
   while (!occurs(DEFAULT_RESPONSE, response)) {
     Serial.print(F("Initializing GPRS..."));
     Serial.println("ERROR: " + response);
     response = sendAT("AT+CIICR", 1000);
+    if (restartCounter < 3)
+      restartCounter += 1;
+    else sendAT("AT+CFUN=1,1", 1000);
   };
   String ipAddress = getLocalIP();
   Serial.println("Initializing GPRS... .OK IP: " + ipAddress);
@@ -85,7 +89,27 @@ String Sim808::getLocalIP() {
     Serial.println("ERROR: " + response);
     response = sendAT("AT+CIFSR", 1000);
   };
-  Serial.println("Getting IP...OK");
+  Serial.println("Getting IP... OK");
+  return response;
+}
+
+void Sim808::initGPS() {
+  String response = sendAT("AT+CGNSPWR=1", 1000);
+  while (!occurs(DEFAULT_RESPONSE, response)) {
+    Serial.print(F("Initializing GPS..."));
+    Serial.println("ERROR: " + response);
+    response = sendAT("AT+CGNSPWR=1", 1000);
+  };
+  Serial.println("Initializing GPS... OK");
+}
+
+String Sim808::getGPS() {
+  String response = sendAT("AT+CGNSINF", 1000);
+  while (!occurs("CGNSINF", response)) {
+    Serial.print(F("Getting GPS..."));
+    Serial.println("ERROR: " + response);
+    response = sendAT("AT+CNPSINF", 1000);
+  };
   return response;
 }
 

@@ -11,12 +11,16 @@ void setup() {
   delay(100);
   sim.begin(9600);
   delay(100);
+  sim.initGPS();
+  delay(100);
   sim.initModem();
   delay(100);
   sim.initGPRS(APN);
 }
 
 void loop() {
-
+  delay(60000);
+  String gps = sim.getGPS();
+  Serial.println(gps);
 }
 
