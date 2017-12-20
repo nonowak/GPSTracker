@@ -16,7 +16,7 @@ class CustomUserDetailsService : UserDetailsService {
     lateinit var userRepository: UserRepository
 
     override fun loadUserByUsername(username: String): UserDetails {
-        val user = userRepository.findByEmailAddress(username) ?: throw UsernameNotFoundException("User was not found in the database")
+        val user = userRepository.findByEmailAddressIgnoreCase(username) ?: throw UsernameNotFoundException("User was not found in the database")
         if (user.password.lockedDuringReset) throw ServiceException(HttpStatus.UNAUTHORIZED, "User is locked")
         if (!user.enabled) throw ServiceException(HttpStatus.UNAUTHORIZED, "User not enabled")
         return CustomUserDetails(user)

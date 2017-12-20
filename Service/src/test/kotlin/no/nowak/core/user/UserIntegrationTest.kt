@@ -117,14 +117,14 @@ class UserIntegrationTest {
     fun `3activateUser correct`() {
         //Given
         val url = TestUtil.getPathForMethod(UserApi::activateUser, UserApi::class.java)
-        val user = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
+        val user = userRepository.findByEmailAddressIgnoreCase(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
         val activationKey = user.activationKey
         //When
         mvc.perform(get(url)
                 .param(UserApi.ACTIVATION_KEY, activationKey))
                 .andExpect(status().isOk)
         //Then
-        val actualUser = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
+        val actualUser = userRepository.findByEmailAddressIgnoreCase(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
         Assert.assertEquals(true, actualUser.enabled)
     }
 
@@ -132,7 +132,7 @@ class UserIntegrationTest {
     fun `4activateUser user is enabled`() {
         //Given
         val url = TestUtil.getPathForMethod(UserApi::activateUser, UserApi::class.java)
-        val user = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
+        val user = userRepository.findByEmailAddressIgnoreCase(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
         val activationKey = user.activationKey
         //When
         mvc.perform(get(url)
@@ -146,7 +146,7 @@ class UserIntegrationTest {
     fun `5activateUser wrong activation key`() {
         //Given
         val url = TestUtil.getPathForMethod(UserApi::activateUser, UserApi::class.java)
-        val user = userRepository.findByEmailAddress(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
+        val user = userRepository.findByEmailAddressIgnoreCase(UserStub.getCorrectUserRegisterDTO().emailAddress)!!
         val activationKey = user.activationKey + "wrong"
         //When
         mvc.perform(get(url)

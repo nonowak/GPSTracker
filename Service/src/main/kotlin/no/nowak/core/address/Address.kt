@@ -7,16 +7,9 @@ import javax.persistence.*
 data class Address(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
-
-        val country: Country
-) : Serializable
-
-@Entity
-data class Country(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int,
-
-        val name: String
+        val id: Int? = null,
+        val postalCode: String? = "",
+        val countryName: String? = "",
+        val cityName: String? = "",
+        val streetName: String? = ""
 ) : Serializable

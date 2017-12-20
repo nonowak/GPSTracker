@@ -1,18 +1,25 @@
 package no.nowak.core.userDetails
 
 import no.nowak.TestUtil
+import no.nowak.core.userDetails.dto.UserInfoDTO
+import no.nowak.stubs.UserInfoStub
+import no.nowak.stubs.UserStub
 import org.hamcrest.Matchers
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -44,11 +51,45 @@ class UserInfoIntegrationTest {
         val url = TestUtil.getPathForMethod(UserInfoApi::getUserInfo, UserInfoApi::class.java)
         val expectedUserDetails = userInfoRepository.findOne(1)
         //When
-        mvc.perform(MockMvcRequestBuilders.get(url))
+        mvc.perform(get(url))
                 //Then
-                .andExpect(MockMvcResultMatchers.status().isOk)
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.`is`(expectedUserDetails.id)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", Matchers.`is`(expectedUserDetails.firstName)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", Matchers.`is`(expectedUserDetails.lastName)))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.firstName", Matchers.`is`(expectedUserDetails.firstName)))
+                .andExpect(jsonPath("$.lastName", Matchers.`is`(expectedUserDetails.lastName)))
+    }
+
+    @Test
+    fun `2updateUserInfo correct`() {
+        //Given
+        val url = TestUtil.getPathForMethod(UserInfoApi::updateUserInfo, UserInfoApi::class.java)
+        val body = TestUtil.convertObjectToJson(UserInfoStub.getCorrectUpdateUserInfoDTO())
+        //When
+        val response = mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andExpect(status().isOk)
+                .andReturn()
+                .response
+        //Then
+        val responseBody: UserInfoDTO = TestUtil.convertJsonToObject(response.contentAsString)
+        val actualUserDetails = userInfoRepository.findOne(1)
+        Assert.assertTrue(UserInfoDTO(actualUserDetails) == responseBody)
+    }
+
+    @Test
+    fun `2updateUserInfo wrong postal`() {
+        //Given
+        val url = TestUtil.getPathForMethod(UserInfoApi::updateUserInfo, UserInfoApi::class.java)
+        var userInfoDTO = UserInfoStub.getCorrectUpdateUserInfoDTO()
+        userInfoDTO.postalCode = "55555"
+        val body = TestUtil.convertObjectToJson(userInfoDTO)
+        //When
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                //Then
+                .andExpect(status().isBadRequest)
+                .andExpect(jsonPath("$.message", Matchers.`is`("Wrong postal code format")))
+
     }
 }
