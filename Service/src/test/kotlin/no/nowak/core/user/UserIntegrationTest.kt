@@ -65,6 +65,22 @@ class UserIntegrationTest {
     }
 
     @Test
+    fun `11registerUser should return conflict case sensitive`() {
+        //Given
+        val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()
+        userRegisterDTO.emailAddress = "Test@test.pl"
+        val url = TestUtil.getPathForMethod(UserApi::registerUser, UserApi::class.java)
+        val body = TestUtil.convertObjectToJson(userRegisterDTO)
+        //When
+        mvc.perform(post(url)
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                //Then
+                .andExpect(status().isConflict)
+                .andExpect(jsonPath("$.message", Matchers.`is`("User with this email exists")))
+    }
+
+    @Test
     fun `11registerUser should return wrong password`() {
         //Given
         val userRegisterDTO = UserStub.getCorrectUserRegisterDTO()

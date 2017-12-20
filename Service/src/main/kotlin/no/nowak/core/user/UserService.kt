@@ -16,7 +16,7 @@ class UserService(private val userRepository: UserRepository,
 
     fun registerUser(userRegisterDTO: UserRegisterDTO): String {
         val email = userRegisterDTO.emailAddress
-        if (userRepository.findByEmailAddress(email) != null) throw ServiceException(HttpStatus.CONFLICT, "User with this email exists")
+        if (userRepository.findByEmailAddressIgnoreCase(email) != null) throw ServiceException(HttpStatus.CONFLICT, "User with this email exists")
         val user = User(
                 emailAddress = email,
                 password = Password(
