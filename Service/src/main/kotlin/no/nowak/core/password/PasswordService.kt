@@ -3,7 +3,7 @@ package no.nowak.core.password
 import no.nowak.core.infrastructure.Tools
 import no.nowak.core.infrastructure.exceptions.ServiceException
 import no.nowak.core.infrastructure.mail.MailService
-import no.nowak.core.password.DTO.ResetPasswordDTO
+import no.nowak.core.password.dto.ResetPasswordDTO
 import no.nowak.core.user.User
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder

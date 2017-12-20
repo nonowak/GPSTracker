@@ -1,6 +1,6 @@
 package no.nowak.stubs
 
-import no.nowak.core.password.DTO.ResetPasswordDTO
+import no.nowak.core.password.dto.ResetPasswordDTO
 
 class PasswordStub {
     companion object {

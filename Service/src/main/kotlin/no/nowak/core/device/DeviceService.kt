@@ -1,7 +1,7 @@
 package no.nowak.core.device
 
-import no.nowak.core.device.DTO.AddDeviceDTO
-import no.nowak.core.device.DTO.DeviceDTO
+import no.nowak.core.device.dto.AddDeviceDTO
+import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.device.Permission.OWNER
 import no.nowak.core.deviceDictionary.DeviceDictionaryService
 import no.nowak.core.infrastructure.exceptions.ServiceException

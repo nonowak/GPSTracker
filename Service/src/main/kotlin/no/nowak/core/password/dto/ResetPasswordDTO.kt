@@ -1,4 +1,4 @@
-package no.nowak.core.password.DTO
+package no.nowak.core.password.dto
 
 import org.hibernate.validator.constraints.Email
 import javax.validation.constraints.Pattern

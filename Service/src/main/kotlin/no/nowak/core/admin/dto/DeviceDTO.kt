@@ -1,4 +1,4 @@
-package no.nowak.core.admin.DTO
+package no.nowak.core.admin.dto
 
 import no.nowak.core.device.DeviceType
 import no.nowak.core.deviceDictionary.DeviceDictionary

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import no.nowak.core.infrastructure.Paths.PASSWORD_PATH
-import no.nowak.core.password.DTO.ResetPasswordDTO
+import no.nowak.core.password.dto.ResetPasswordDTO
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 

@@ -1,8 +1,7 @@
 package no.nowak.stubs
 
-import no.nowak.core.admin.DTO.DeviceDTO
-import no.nowak.core.device.DTO.AddDeviceDTO
-import no.nowak.core.device.DeviceType
+import no.nowak.core.admin.dto.DeviceDTO
+import no.nowak.core.device.dto.AddDeviceDTO
 import no.nowak.core.device.DeviceType.GPSTRACKER
 
 class DeviceStub {

@@ -1,4 +1,4 @@
-package no.nowak.core.device.DTO
+package no.nowak.core.device.dto
 
 import no.nowak.core.device.DeviceType
 import no.nowak.core.device.Permission

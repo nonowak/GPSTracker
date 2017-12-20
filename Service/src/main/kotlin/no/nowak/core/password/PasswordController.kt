@@ -1,6 +1,6 @@
 package no.nowak.core.password
 
-import no.nowak.core.password.DTO.ResetPasswordDTO
+import no.nowak.core.password.dto.ResetPasswordDTO
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 

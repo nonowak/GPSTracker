@@ -9,7 +9,6 @@ data class Address(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int,
 
-        @OneToOne
         val country: Country
 ) : Serializable
 

@@ -1,6 +1,6 @@
 package no.nowak.core.admin
 
-import no.nowak.core.admin.DTO.DeviceDTO
+import no.nowak.core.admin.dto.DeviceDTO
 import no.nowak.core.deviceDictionary.DeviceDictionary
 import no.nowak.core.deviceDictionary.DeviceDictionaryService
 import no.nowak.core.infrastructure.security.authorizationService.AuthorizationService

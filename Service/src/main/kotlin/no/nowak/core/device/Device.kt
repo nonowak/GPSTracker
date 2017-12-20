@@ -1,6 +1,6 @@
 package no.nowak.core.device
 
-import no.nowak.core.device.DTO.AddDeviceDTO
+import no.nowak.core.device.dto.AddDeviceDTO
 import no.nowak.core.deviceDictionary.DeviceDictionary
 import no.nowak.core.user.User
 import no.nowak.core.user.UserDevice

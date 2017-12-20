@@ -4,8 +4,8 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
-import no.nowak.core.device.DTO.AddDeviceDTO
-import no.nowak.core.device.DTO.DeviceDTO
+import no.nowak.core.device.dto.AddDeviceDTO
+import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.infrastructure.Paths
 import no.nowak.core.infrastructure.exceptions.ServiceException
 import org.springframework.http.HttpStatus

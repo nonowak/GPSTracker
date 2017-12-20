@@ -1,12 +1,10 @@
 package no.nowak.core.device
 
-import no.nowak.TestUtil
 import no.nowak.TestUtil.convertJsonToObject
 import no.nowak.TestUtil.convertObjectToJson
 import no.nowak.TestUtil.getPathForMethod
-import no.nowak.core.device.DTO.DeviceDTO
+import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.deviceDictionary.DeviceDictionaryRepository
-import no.nowak.core.userDetails.UserInfoRepository
 import no.nowak.stubs.DeviceStub
 import org.hamcrest.Matchers
 import org.junit.Assert

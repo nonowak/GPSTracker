@@ -1,6 +1,6 @@
 package no.nowak.core.admin
 
-import no.nowak.core.admin.DTO.DeviceDTO
+import no.nowak.core.admin.dto.DeviceDTO
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
