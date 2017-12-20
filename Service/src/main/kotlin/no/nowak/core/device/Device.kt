@@ -2,6 +2,7 @@ package no.nowak.core.device
 
 import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.deviceDictionary.DeviceDictionary
+import no.nowak.core.measurement.MeasurementDate
 import no.nowak.core.user.User
 import no.nowak.core.user.UserDevice
 import java.io.Serializable
@@ -20,7 +21,11 @@ class Device(
         val deviceType: DeviceType,
 
         @OneToOne(cascade = [CascadeType.ALL])
-        val deviceDictionary: DeviceDictionary
+        val deviceDictionary: DeviceDictionary,
+
+        @OneToMany
+        val measurementDates: List<MeasurementDate> = emptyList()
+
 ) : Serializable {
     constructor(deviceDTO: DeviceDTO, deviceDictionary: DeviceDictionary) : this(
             deviceType = deviceDTO.deviceType,
