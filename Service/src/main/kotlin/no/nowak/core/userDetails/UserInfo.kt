@@ -17,7 +17,7 @@ data class UserInfo(
         var lastName: String? = "",
 
         @OneToOne(cascade = [CascadeType.ALL])
-        var address: Address?,
+        var address: Address? = null,
 
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         val createdOn: LocalDateTime = LocalDateTime.now()
