@@ -51,7 +51,6 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
     override fun configure(security: AuthorizationServerSecurityConfigurer?) {
         security!!.allowFormAuthenticationForClients()
                 .passwordEncoder(encoder())
-                .and()
     }
 
     @Bean
