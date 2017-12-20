@@ -1,17 +1,12 @@
 package no.nowak.stubs
 
-import no.nowak.core.admin.dto.DeviceDTO
-import no.nowak.core.device.dto.AddDeviceDTO
+import no.nowak.core.admin.dto.DeviceDictionaryDTO
 import no.nowak.core.device.DeviceType.GPSTRACKER
+import no.nowak.core.device.dto.DeviceDTO
 
 class DeviceStub {
     companion object {
-        fun getCorrectAdminDeviceDTO() = DeviceDTO(
-                deviceType = GPSTRACKER,
-                token = "1111-1112"
-        )
-
-        fun getCorrectAddDeviceDTO() = AddDeviceDTO(
+        fun getCorrectUserDeviceDTO() = DeviceDTO(
                 deviceType = GPSTRACKER,
                 token = "1111-1111"
         )

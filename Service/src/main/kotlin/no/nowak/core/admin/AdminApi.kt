@@ -4,7 +4,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
-import no.nowak.core.admin.dto.DeviceDTO
+import no.nowak.core.admin.dto.DeviceDictionaryDTO
 import no.nowak.core.infrastructure.Paths.ADMIN_PATH
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -20,18 +20,18 @@ interface AdminApi {
 
     @ApiOperation("Add new device")
     @ApiResponses(
-            ApiResponse(code = 201, message = "Device added", response = DeviceDTO::class),
+            ApiResponse(code = 201, message = "Device added", response = DeviceDictionaryDTO::class),
             ApiResponse(code = 404, message = "Invalid deviceDictionary", response = String::class),
             ApiResponse(code = 409, message = "Device with this deviceDictionary already exists", response = String::class)
     )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(DEVICE_PATH)
-    fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO): DeviceDTO
+    fun addDevice(@RequestBody @Valid deviceDictionaryDTO: DeviceDictionaryDTO): DeviceDictionaryDTO
 
     @ApiOperation("Get all devices")
     @ApiResponses(
-            ApiResponse(code = 200, message = "Device added", response = DeviceDTO::class, responseContainer = "List")
+            ApiResponse(code = 200, message = "Device added", response = DeviceDictionaryDTO::class, responseContainer = "List")
     )
     @GetMapping(DEVICE_PATH)
-    fun getAllDevices(): List<DeviceDTO>
+    fun getAllDevices(): List<DeviceDictionaryDTO>
 }

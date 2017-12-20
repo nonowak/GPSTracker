@@ -8,14 +8,13 @@ import java.time.LocalDateTime
 import javax.persistence.Convert
 import javax.validation.constraints.Pattern
 
-data class DeviceDTO(
+data class DeviceDictionaryDTO(
         @field:NotNull
         val deviceType: DeviceType,
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         val createdOn: LocalDateTime? = null,
         val createdByEmailAddress: String? = null,
-        @field:Pattern(regexp = "([0-9]{4}-[0-9]{4})", message = "Invalid deviceDictionary")
-        var token: String
+        var token: String? = null
 ) {
     constructor(deviceDictionary: DeviceDictionary) : this(
             deviceType = deviceDictionary.deviceType,

@@ -1,24 +1,35 @@
 package no.nowak.core.admin
 
-import no.nowak.core.admin.dto.DeviceDTO
+import no.nowak.core.admin.dto.DeviceDictionaryDTO
+import no.nowak.core.device.DeviceType
 import no.nowak.core.deviceDictionary.DeviceDictionary
 import no.nowak.core.deviceDictionary.DeviceDictionaryService
 import no.nowak.core.infrastructure.security.authorizationService.AuthorizationService
+import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.stereotype.Service
 
 @Service
 class AdminService(private val deviceDictionaryService: DeviceDictionaryService,
                    private val authorizationService: AuthorizationService) {
 
-    fun addDevice(deviceDTO: DeviceDTO): DeviceDTO {
+    fun addDevice(deviceDictionaryDTO: DeviceDictionaryDTO): DeviceDictionaryDTO {
         val deviceDictionary = DeviceDictionary(
                 createdBy = authorizationService.getCurrentUser(),
-                deviceType = deviceDTO.deviceType,
-                token = deviceDTO.token
+                deviceType = deviceDictionaryDTO.deviceType,
+                token = generateToken(deviceDictionaryDTO.deviceType)
         )
-        return DeviceDTO(deviceDictionaryService.addDevice(deviceDictionary))
+        return DeviceDictionaryDTO(deviceDictionaryService.addDevice(deviceDictionary))
     }
 
-    fun getAllDevices(): List<DeviceDTO> =
-            deviceDictionaryService.getAllDevices().map { DeviceDTO(it) }
+    fun getAllDevices(): List<DeviceDictionaryDTO> =
+            deviceDictionaryService.getAllDevices().map { DeviceDictionaryDTO(it) }
+
+    private fun generateToken(deviceType: DeviceType): String {
+        var randomToken: String = RandomStringUtils.random(8, true, true)
+        randomToken = randomToken.substring(0, 4) + "-" + randomToken.substring(4, randomToken.length)
+        if (deviceDictionaryService.getByTokenAndDeviceType(randomToken, deviceType) != null)
+            generateToken(deviceType)
+        return randomToken
+
+    }
 }

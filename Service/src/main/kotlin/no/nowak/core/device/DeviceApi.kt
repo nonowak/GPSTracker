@@ -4,7 +4,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
-import no.nowak.core.device.dto.AddDeviceDTO
 import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.infrastructure.Paths
 import no.nowak.core.infrastructure.exceptions.ServiceException
@@ -18,9 +17,6 @@ import javax.validation.Valid
 @Api(description = "Device Controller", tags = ["Device"])
 @RequestMapping(Paths.DEVICES_PATH)
 interface DeviceApi {
-    companion object {
-
-    }
 
     @ApiOperation("Add Device")
     @ApiResponses(
@@ -30,5 +26,5 @@ interface DeviceApi {
     )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    fun addDevice(@RequestBody @Valid addDeviceDTO: AddDeviceDTO): Map<DeviceType, DeviceDTO>
+    fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO): Map<DeviceType, DeviceDTO>
 }

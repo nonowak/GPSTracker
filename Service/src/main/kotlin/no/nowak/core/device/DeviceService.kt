@@ -1,6 +1,5 @@
 package no.nowak.core.device
 
-import no.nowak.core.device.dto.AddDeviceDTO
 import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.device.Permission.OWNER
 import no.nowak.core.deviceDictionary.DeviceDictionaryService
@@ -14,10 +13,10 @@ import org.springframework.stereotype.Service
 class DeviceService(private val authorizationService: AuthorizationService,
                     private val deviceDictionaryService: DeviceDictionaryService,
                     private val deviceRepository: DeviceRepository) {
-    fun addDevice(addDeviceDTO: AddDeviceDTO): Map<DeviceType, DeviceDTO> {
-        val deviceDictionary = deviceDictionaryService.getByTokenAndDeviceType(addDeviceDTO.token, addDeviceDTO.deviceType)
+    fun addDevice(deviceDTO: DeviceDTO): Map<DeviceType, DeviceDTO> {
+        val deviceDictionary = deviceDictionaryService.getByTokenAndDeviceType(deviceDTO.token, deviceDTO.deviceType) ?: throw ServiceException(HttpStatus.NOT_FOUND, "Device not found")
         if (deviceDictionary.enabled) throw ServiceException(HttpStatus.CONFLICT, "Device is enabled")
-        val device = Device(addDeviceDTO, deviceDictionary)
+        val device = Device(deviceDTO, deviceDictionary)
         val user = authorizationService.getCurrentUser()
         device.addUser(user, OWNER)
         save(device)

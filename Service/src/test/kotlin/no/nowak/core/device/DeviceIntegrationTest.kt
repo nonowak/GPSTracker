@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -53,20 +54,21 @@ class DeviceIntegrationTest {
     fun `addDevice correct`() {
         //Given
         val url = getPathForMethod(DeviceApi::addDevice, DeviceApi::class.java)
-        val addDeviceDTO = DeviceStub.getCorrectAddDeviceDTO()
+        val addDeviceDTO = DeviceStub.getCorrectUserDeviceDTO()
         val body = convertObjectToJson(addDeviceDTO)
         //When
         val response = mvc.perform(post(url)
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isCreated)
                 .andReturn()
                 .response
         //Then
         val responseBody: Map<DeviceType, DeviceDTO> = convertJsonToObject(response.contentAsString)
-        val deviceDictionary = deviceDictionaryRepository.findByToken(addDeviceDTO.token)!!
+        val deviceDictionary = deviceDictionaryRepository.findOne(1)
         val device = deviceRepository.findOne(1)
-        Assert.assertTrue(responseBody.values.any { it.token == addDeviceDTO.token })
+        Assert.assertTrue(responseBody.values.any { it.token == deviceDictionary.token })
         Assert.assertTrue(responseBody.values.any { it.permission == Permission.OWNER })
         Assert.assertTrue(deviceDictionary.enabled)
         Assert.assertEquals(DeviceType.GPSTRACKER, device.deviceType)
@@ -76,7 +78,7 @@ class DeviceIntegrationTest {
     fun `addDevice already added`() {
         //Given
         val url = getPathForMethod(DeviceApi::addDevice, DeviceApi::class.java)
-        val addDeviceDTO = DeviceStub.getCorrectAddDeviceDTO()
+        val addDeviceDTO = DeviceStub.getCorrectUserDeviceDTO()
         val body = convertObjectToJson(addDeviceDTO)
         //When
         mvc.perform(post(url)
@@ -91,8 +93,8 @@ class DeviceIntegrationTest {
     fun `addDevice device not found`() {
         //Given
         val url = getPathForMethod(DeviceApi::addDevice, DeviceApi::class.java)
-        val addDeviceDTO = DeviceStub.getCorrectAddDeviceDTO()
-        addDeviceDTO.token = "1111-1118"
+        val addDeviceDTO = DeviceStub.getCorrectUserDeviceDTO()
+        addDeviceDTO.token = "1111-1190"
         val body = convertObjectToJson(addDeviceDTO)
         //When
         mvc.perform(post(url)
@@ -107,8 +109,8 @@ class DeviceIntegrationTest {
     fun `addDevice invalid token`() {
         //Given
         val url = getPathForMethod(DeviceApi::addDevice, DeviceApi::class.java)
-        val addDeviceDTO = DeviceStub.getCorrectAddDeviceDTO()
-        addDeviceDTO.token = "11111118"
+        val addDeviceDTO = DeviceStub.getCorrectUserDeviceDTO()
+        addDeviceDTO.token = "11111111"
         val body = convertObjectToJson(addDeviceDTO)
         //When
         mvc.perform(post(url)

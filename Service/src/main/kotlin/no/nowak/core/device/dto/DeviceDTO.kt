@@ -3,12 +3,14 @@ package no.nowak.core.device.dto
 import no.nowak.core.device.DeviceType
 import no.nowak.core.device.Permission
 import no.nowak.core.user.UserDevice
+import javax.validation.constraints.Pattern
 
 data class DeviceDTO(
-        val id: Int,
+        val id: Int? = null,
         val deviceType: DeviceType,
-        val permission: Permission,
-        val token: String
+        val permission: Permission? = null,
+        @field:Pattern(regexp = "([A-Za-z0-9]{4}-[A-Za-z0-9]{4})", message = "Invalid deviceDictionary")
+        var token: String
 ) {
     constructor(userDevice: UserDevice) : this(
             id = userDevice.device.id!!,

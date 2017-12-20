@@ -40,6 +40,7 @@ configurations {
 }
 
 dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")

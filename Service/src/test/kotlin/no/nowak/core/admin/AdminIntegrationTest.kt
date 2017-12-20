@@ -3,9 +3,10 @@ package no.nowak.core.admin
 import no.nowak.TestUtil.convertJsonToObject
 import no.nowak.TestUtil.convertObjectToJson
 import no.nowak.TestUtil.getPathForMethod
-import no.nowak.core.admin.dto.DeviceDTO
+import no.nowak.core.admin.dto.DeviceDictionaryDTO
 import no.nowak.core.device.DeviceType
 import no.nowak.core.deviceDictionary.DeviceDictionaryRepository
+import no.nowak.stubs.DeviceDictionaryStub
 import no.nowak.stubs.DeviceStub
 import org.hamcrest.Matchers
 import org.junit.Assert
@@ -51,7 +52,7 @@ class AdminIntegrationTest {
     fun `addDevice correct`() {
         //Given
         val url = getPathForMethod(AdminApi::addDevice, AdminApi::class.java)
-        val deviceDTO = DeviceStub.getCorrectAdminDeviceDTO()
+        val deviceDTO = DeviceDictionaryStub.getCorrectDeviceDTO()
         val body = convertObjectToJson(deviceDTO)
         //When
         val response = mvc.perform(post(url)
@@ -61,11 +62,12 @@ class AdminIntegrationTest {
                 .andReturn()
                 .response
         //Then
-        val savedDeviceDTO = DeviceDTO(deviceDictionaryRepository.findOne(2))
-        val responseBody: DeviceDTO = convertJsonToObject(response.contentAsString)
+        val savedDeviceDTO = DeviceDictionaryDTO(deviceDictionaryRepository.findOne(2))
+        val responseBody: DeviceDictionaryDTO = convertJsonToObject(response.contentAsString)
         Assert.assertTrue(savedDeviceDTO == responseBody)
         Assert.assertEquals(DeviceType.GPSTRACKER, responseBody.deviceType)
         Assert.assertEquals("admin@test.pl", responseBody.createdByEmailAddress)
+        Assert.assertTrue(responseBody.token!!.matches("[A-Za-z0-9]{4}-[A-Za-z0-9]{4}".toRegex()))
     }
 
     @Test
@@ -75,39 +77,8 @@ class AdminIntegrationTest {
         //When
         val response = mvc.perform(get(url)).andReturn().response
         //Then
-        val responseBody: List<DeviceDTO> = convertJsonToObject(response.contentAsString)
+        val responseBody: List<DeviceDictionaryDTO> = convertJsonToObject(response.contentAsString)
         Assert.assertEquals(2, responseBody.size)
         Assert.assertTrue(responseBody.none { it.createdByEmailAddress == null || it.createdByEmailAddress == null })
     }
-
-    @Test
-    fun `addDevice incorrectToken`() {
-        //Given
-        val url = getPathForMethod(AdminApi::addDevice, AdminApi::class.java)
-        val deviceDTO = DeviceStub.getCorrectAdminDeviceDTO()
-        deviceDTO.token = "11111111"
-        val body = convertObjectToJson(deviceDTO)
-        //When
-        val response = mvc.perform(post(url)
-                .content(body)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.message", Matchers.`is`("Invalid deviceDictionary")))
-    }
-
-    @Test
-    fun `addDevice conflict token`() {
-        //Given
-        val url = getPathForMethod(AdminApi::addDevice, AdminApi::class.java)
-        var deviceDTO = DeviceStub.getCorrectAdminDeviceDTO()
-        val body = convertObjectToJson(deviceDTO)
-        //When
-        mvc.perform(post(url)
-                .content(body)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                //Then
-                .andExpect(status().isConflict)
-                .andExpect(jsonPath("$.message", Matchers.`is`("Device with this deviceDictionary already exists")))
-    }
-
 }

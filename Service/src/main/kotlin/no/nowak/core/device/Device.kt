@@ -1,6 +1,6 @@
 package no.nowak.core.device
 
-import no.nowak.core.device.dto.AddDeviceDTO
+import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.deviceDictionary.DeviceDictionary
 import no.nowak.core.user.User
 import no.nowak.core.user.UserDevice
@@ -22,8 +22,8 @@ class Device(
         @OneToOne(cascade = [CascadeType.ALL])
         val deviceDictionary: DeviceDictionary
 ) : Serializable {
-    constructor(addDeviceDTO: AddDeviceDTO, deviceDictionary: DeviceDictionary) : this(
-            deviceType = addDeviceDTO.deviceType,
+    constructor(deviceDTO: DeviceDTO, deviceDictionary: DeviceDictionary) : this(
+            deviceType = deviceDTO.deviceType,
             deviceDictionary = deviceDictionary
     )
 

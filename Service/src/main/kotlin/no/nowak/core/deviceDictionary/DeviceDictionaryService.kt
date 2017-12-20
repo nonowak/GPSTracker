@@ -21,8 +21,8 @@ class DeviceDictionaryService(private val deviceDictionaryRepository: DeviceDict
     fun getAllDevices(): List<DeviceDictionary> =
             deviceDictionaryRepository.findAll()
 
-    fun getByTokenAndDeviceType(token: String, deviceType: DeviceType) =
-            deviceDictionaryRepository.findByTokenAndDeviceType(token, deviceType) ?: throw ServiceException(HttpStatus.NOT_FOUND, "Device not found")
+    fun getByTokenAndDeviceType(token: String, deviceType: DeviceType): DeviceDictionary? =
+            deviceDictionaryRepository.findByTokenAndDeviceType(token, deviceType)
 
     fun save(deviceDictionary: DeviceDictionary): DeviceDictionary =
             deviceDictionaryRepository.save(deviceDictionary)
