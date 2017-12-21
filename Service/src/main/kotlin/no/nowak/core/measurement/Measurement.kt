@@ -1,6 +1,5 @@
 package no.nowak.core.measurement
 
-import no.nowak.core.device.DeviceType
 import no.nowak.core.infrastructure.converters.LocalDateAttributeConverter
 import no.nowak.core.infrastructure.converters.LocalTimeAttributeConverter
 import java.time.LocalDate
@@ -13,7 +12,7 @@ import javax.persistence.*
 open class Measurement(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int?,
+        val id: Int? = null,
         val token: String
 )
 
@@ -35,6 +34,7 @@ data class MeasurementDate(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int?,
         @Convert(converter = LocalDateAttributeConverter::class)
+        @Column(unique = true)
         val date: LocalDate,
         @OneToMany
         val measurementTime: List<MeasurementTime>

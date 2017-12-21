@@ -32,7 +32,7 @@ class ResourceServer : ResourceServerConfigurerAdapter() {
                         "/webjars/**",
                         "${Paths.USER_PATH}${UserApi.REGISTER_PATH}/**",
                         "${Paths.PASSWORD_PATH}/**",
-                        "${Paths.MEASUREMENTS_PATH}/**"
+                        "${Paths.GPS_PATH}${Paths.MEASUREMENTS_PATH}/**"
                 ).permitAll()
                 .antMatchers("/**").hasRole("USER")
                 .antMatchers("${Paths.ADMIN_PATH}/**").hasRole("ADMIN")

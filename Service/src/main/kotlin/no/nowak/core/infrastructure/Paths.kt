@@ -6,5 +6,6 @@ object Paths {
     const val PASSWORD_PATH = "$USER_PATH/passwords"
     const val ADMIN_PATH = "/admins"
     const val DEVICES_PATH = "/devices"
-    const val MEASUREMENTS_PATH = "/devices/measurements"
+    const val MEASUREMENTS_PATH = "/measurements"
+    const val GPS_PATH = "/gps"
 }

@@ -9,7 +9,6 @@ import javax.persistence.Entity
 @Entity
 @DiscriminatorValue("gps")
 class MeasurementGPS(
-        id: Int,
         token: String,
         @Embedded
         val latLng: LatLng,
@@ -17,4 +16,4 @@ class MeasurementGPS(
         val countryName: String,
         val cityName: String,
         val streetName: String
-) : Measurement(id = id, token = token)
+) : Measurement(token = token)

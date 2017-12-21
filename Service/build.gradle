@@ -62,6 +62,7 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-devtools")
+    compile 'com.google.maps:google-maps-services:0.2.5'
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
