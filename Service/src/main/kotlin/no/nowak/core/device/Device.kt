@@ -14,7 +14,7 @@ class Device(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = null,
 
-        @OneToMany(mappedBy = "device", cascade = [CascadeType.ALL])
+        @OneToMany(mappedBy = "device", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         val users: MutableList<UserDevice> = mutableListOf(),
 
         @Enumerated(EnumType.STRING)
@@ -23,7 +23,7 @@ class Device(
         @OneToOne(cascade = [CascadeType.ALL])
         val deviceDictionary: DeviceDictionary,
 
-        @OneToMany
+        @ManyToMany(mappedBy = "devices", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         val measurementDates: List<MeasurementDate> = emptyList()
 
 ) : Serializable {

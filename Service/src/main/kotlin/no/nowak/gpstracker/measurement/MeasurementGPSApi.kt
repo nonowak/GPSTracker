@@ -28,7 +28,7 @@ interface MeasurementGPSApi {
     )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(ADD_MEASUREMENT)
-    @PreAuthorize("@deviceDictionaryService.getByTokenAndDeviceType(#token, 'GPSTRACKER') != null")
+    @PreAuthorize("@deviceDictionaryService.getByTokenAndDeviceType(#token, 'GPSTRACKER').enabled == true")
     fun addMeasurement(@PathVariable(TOKEN) token: String,
                        @RequestBody @Valid measurementGPSDTO: MeasurementGPSDTO)
 

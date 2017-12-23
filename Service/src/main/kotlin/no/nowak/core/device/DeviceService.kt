@@ -27,7 +27,10 @@ class DeviceService(private val authorizationService: AuthorizationService,
     fun getDeviceTypeDeviceMap(user: User) =
             user.devices.map { Pair(it.device.deviceType, DeviceDTO(it)) }.toMap()
 
-    fun save(device: Device): Device {
-        return deviceRepository.save(device)
-    }
+    fun save(device: Device): Device =
+            deviceRepository.save(device)
+
+    fun getByToken(token: String): Device =
+            deviceRepository.findByDeviceDictionary_Token(token)
+
 }

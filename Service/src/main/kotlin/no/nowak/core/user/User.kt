@@ -17,14 +17,14 @@ data class User(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = null,
         var emailAddress: String,
-        @OneToOne(cascade = [(CascadeType.ALL)])
+        @OneToOne(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
         val password: Password,
-        @OneToOne(cascade = [(CascadeType.ALL)])
+        @OneToOne(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
         val userInfo: UserInfo,
         var enabled: Boolean = false,
         @JsonIgnore
         var activationKey: String = Tools.generateUUIDString(),
-        @OneToMany(mappedBy = "user")
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
         val devices: MutableList<UserDevice> = mutableListOf(),
 
         @Enumerated(EnumType.STRING)

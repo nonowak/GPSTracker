@@ -16,9 +16,9 @@ class MeasurementGPSController(private val measurementService: MeasurementGPSSer
                                private val deviceDictionaryService: DeviceDictionaryService) : MeasurementGPSApi {
 
     override fun addMeasurement(@PathVariable(MeasurementGPSApi.TOKEN) token: String,
-                       @RequestBody @Valid measurementGPSDTO: MeasurementGPSDTO) {
-//        val device = deviceDictionaryService.getByTokenAndDeviceType(token, DeviceType.GPSTRACKER)
+                                @RequestBody @Valid measurementGPSDTO: MeasurementGPSDTO) {
+//        val device = deviceDictionaryService.getByToken(token, DeviceType.GPSTRACKER)
 //        if(device == null || !device.enabled) throw ServiceException(HttpStatus.FORBIDDEN, "Device not found or not enabled")
-        measurementService.addMeasurement(measurementGPSDTO)
+        measurementService.addMeasurement(token, measurementGPSDTO)
     }
 }
