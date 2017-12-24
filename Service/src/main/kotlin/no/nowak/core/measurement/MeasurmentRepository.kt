@@ -13,14 +13,15 @@ import java.time.LocalTime
 @NoRepositoryBean
 interface MeasurmentRepository<T : Measurement> : JpaRepository<T, Int> {
     fun findByDevice_DeviceDictionary_TokenAndTimeBetweenAndMeasurementDate_Date(token: String, startTime: LocalTime, endTime: LocalTime, date: LocalDate): T
+    fun findByDeviceAndTimeBetweenAndMeasurementDate(device: Device, startTime: LocalTime, endTime: LocalTime, measurementDate: MeasurementDate): List<T>
 }
 
 interface MeasurementDateRepository : JpaRepository<MeasurementDate, Int> {
     fun findByDate(date: LocalDate): MeasurementDate?
 
-    @Query("SELECT m.date FROM MeasurementDate m" +
+    @Query("SELECT m FROM MeasurementDate m" +
             " JOIN m.devices d ON d = :device" +
             " ORDER By m.date DESC")
-    fun findTopDateByDevice(@Param("device") device: Device,
-                            pageable: Pageable): Page<LocalDate>
+    fun findTopByDevice(@Param("device") device: Device,
+                            pageable: Pageable): Page<MeasurementDate>
 }

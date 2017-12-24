@@ -1,6 +1,7 @@
 package no.nowak.core.measurement
 
 import no.nowak.core.device.Device
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -17,8 +18,8 @@ class MeasurementService(private val measurementDateRepository: MeasurementDateR
         return measurementDate
     }
 
-    fun getTopDateByDevice(device: Device): LocalDate? {
-        return measurementDateRepository.findTopDateByDevice(device, PageRequest(0, 1)).firstOrNull()
+    fun getTopDateByDevice(device: Device, pageable: PageRequest = PageRequest(0, 1)): Page<MeasurementDate> {
+        return measurementDateRepository.findTopByDevice(device, pageable)
     }
 
 //    fun getByDeviceAndDateBetween(device: Device, startDate: LocalDate, endDate: LocalDate, pageable: Pageable): List<MeasurementDate> =

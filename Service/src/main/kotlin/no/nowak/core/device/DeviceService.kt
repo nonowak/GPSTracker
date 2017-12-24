@@ -34,9 +34,9 @@ class DeviceService(private val authorizationService: AuthorizationService,
         val result: MutableMap<DeviceType, MutableList<DeviceWithLastMeasurementDateDTO>> = mutableMapOf()
         user.devices.forEach {
             if (result.containsKey(it.device.deviceType))
-                result[it.device.deviceType]?.add(DeviceWithLastMeasurementDateDTO(it, measurementService.getTopDateByDevice(it.device)))
+                result[it.device.deviceType]?.add(DeviceWithLastMeasurementDateDTO(it, measurementService.getTopDateByDevice(it.device).firstOrNull()?.date))
             else
-                result.put(it.device.deviceType, mutableListOf(DeviceWithLastMeasurementDateDTO(it, measurementService.getTopDateByDevice(it.device))))
+                result.put(it.device.deviceType, mutableListOf(DeviceWithLastMeasurementDateDTO(it, measurementService.getTopDateByDevice(it.device).firstOrNull()?.date)))
         }
         return result.toMap()
     }

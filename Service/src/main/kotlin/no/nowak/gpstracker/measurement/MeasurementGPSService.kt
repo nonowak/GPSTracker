@@ -1,13 +1,18 @@
 package no.nowak.gpstracker.measurement
 
 import com.google.maps.model.LatLng
+import no.nowak.core.device.Device
 import no.nowak.core.device.DeviceService
 import no.nowak.core.measurement.MeasurementDate
 import no.nowak.core.measurement.MeasurementService
 import no.nowak.gpstracker.google.GoogleApiService
 import no.nowak.gpstracker.measurement.dto.MeasurementGPSDTO
+import no.nowak.gpstracker.measurement.dto.MeasurementResponseDTO
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @Service
@@ -38,5 +43,19 @@ class MeasurementGPSService(private val measurementGPSRepository: MeasurementGPS
                 time = measurementDateTime.toLocalTime()
         )
         measurementGPSRepository.save(measurementGPS)
+    }
+
+    fun findTopMeasurements(device: Device) = measurementService.getTopDateByDevice(device, PageRequest(0, 1))
+            .flatMap {
+                measurementGPSRepository.findByDeviceAndTimeBetweenAndMeasurementDate(device, LocalTime.MIN, LocalTime.MAX, it)
+                        .sortedBy { it.time }
+                        .map {
+                            MeasurementResponseDTO(it)
+                        }
+            }
+
+
+    fun findMeasurementsBetween(device: Device, startDate: LocalDate, endDate: LocalDate) {
+
     }
 }
