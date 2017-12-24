@@ -8,7 +8,8 @@ class DeviceStub {
     companion object {
         fun getCorrectUserDeviceDTO() = DeviceDTO(
                 deviceType = GPSTRACKER,
-                token = "1111-1111"
+                token = "1111-1111",
+                name = "Custom name"
         )
     }
 }

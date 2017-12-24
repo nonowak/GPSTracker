@@ -4,6 +4,7 @@ import no.nowak.TestUtil.convertJsonToObject
 import no.nowak.TestUtil.convertObjectToJson
 import no.nowak.TestUtil.getPathForMethod
 import no.nowak.core.device.dto.DeviceDTO
+import no.nowak.core.device.dto.DeviceWithLastMeasurementDateDTO
 import no.nowak.core.deviceDictionary.DeviceDictionaryRepository
 import no.nowak.stubs.DeviceStub
 import org.hamcrest.Matchers
@@ -18,6 +19,7 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -25,6 +27,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import java.time.LocalDate
 
 @RunWith(SpringRunner::class)
 @ActiveProfiles("userFakeAuthorizationService", "test", "dev")
@@ -65,11 +68,10 @@ class DeviceIntegrationTest {
                 .andReturn()
                 .response
         //Then
-        val responseBody: Map<DeviceType, DeviceDTO> = convertJsonToObject(response.contentAsString)
+        val responseBody: Map<DeviceType, List<DeviceWithLastMeasurementDateDTO>> = convertJsonToObject(response.contentAsString)
         val deviceDictionary = deviceDictionaryRepository.findOne(1)
         val device = deviceRepository.findOne(1)
-        Assert.assertTrue(responseBody.values.any { it.token == deviceDictionary.token })
-        Assert.assertTrue(responseBody.values.any { it.permission == Permission.OWNER })
+        Assert.assertTrue(responseBody.values.any { it.any { it.permission == Permission.OWNER } })
         Assert.assertTrue(deviceDictionary.enabled)
         Assert.assertEquals(DeviceType.GPSTRACKER, device.deviceType)
     }
@@ -119,6 +121,20 @@ class DeviceIntegrationTest {
                 //Then
                 .andExpect(status().isBadRequest)
                 .andExpect(jsonPath("$.message", Matchers.`is`("Invalid deviceDictionary")))
+    }
+
+    @Test
+    fun `getUserDevices ok`() {
+        //Given
+        val url = getPathForMethod(DeviceApi::getUserDevices, DeviceApi::class.java)
+        //When
+        val response = mvc.perform(get(url))
+                .andExpect(status().isOk)
+                .andReturn().response
+        //Then
+        val responseBody: Map<DeviceType, List<DeviceWithLastMeasurementDateDTO>> = convertJsonToObject(response.contentAsString)
+        Assert.assertEquals(3, responseBody[DeviceType.GPSTRACKER]?.size)
+        Assert.assertEquals(LocalDate.of(2017, 12, 23), responseBody[DeviceType.GPSTRACKER]!![1].lastMeasurementDate)
     }
 
 }

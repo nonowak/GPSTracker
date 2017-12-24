@@ -27,12 +27,32 @@ VALUES
    '\xc30d0407030220d25147faad56367bd23a01617003b19b716dbc60fb4b545f430f9c141dbb95e31b3bad691aef5795d459e92a8eb8d64dd7c9eb2413f59ab1e4d441ed60218110b63845c9',
    2); --h1rQ-BWZ9--;
 
-INSERT INTO device (device_type, device_dictionary_id)
+INSERT INTO device (device_type, device_dictionary_id, name)
 VALUES
-  ('GPSTRACKER', 1),
-  ('GPSTRACKER', 2);
+  ('GPSTRACKER', 1, 'GPSTRACKER1'),
+  ('GPSTRACKER', 2, 'GPSTRACKER2');
 
 INSERT INTO user_device (device_id, user_id, permission)
 VALUES
   (1, 1, 'OWNER'),
   (2, 1, 'OWNER');
+
+INSERT INTO public.measurement_date (id, date)
+VALUES
+  (1, '2017-12-23'),
+  (2, '2017-12-22');
+
+INSERT INTO public.measurement_date_devices (measurement_dates_id, devices_id)
+VALUES
+  (1, 2),
+  (2, 2);
+
+INSERT INTO public.measurement (id, measurement_type, time, device_id, measurement_date_id)
+VALUES
+  (1, 'gps', '11:42:00', 2, 1),
+  (2, 'gps', '11:42:00', 2, 1);
+
+INSERT INTO public.measurementgps (id, city_name, country_name, street_name, lat, lng)
+VALUES
+  (1, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
+  (2, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841);

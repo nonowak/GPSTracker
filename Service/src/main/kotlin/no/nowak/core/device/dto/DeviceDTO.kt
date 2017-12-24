@@ -10,12 +10,14 @@ data class DeviceDTO(
         val deviceType: DeviceType,
         val permission: Permission? = null,
         @field:Pattern(regexp = "([A-Za-z0-9]{4}-[A-Za-z0-9]{4})", message = "Invalid deviceDictionary")
-        var token: String
+        var token: String,
+        var name: String
 ) {
     constructor(userDevice: UserDevice) : this(
             id = userDevice.device.id!!,
             deviceType = userDevice.device.deviceType,
             permission = userDevice.permission,
-            token = userDevice.device.deviceDictionary.token
+            token = userDevice.device.deviceDictionary.token,
+            name = userDevice.device.name
     )
 }
