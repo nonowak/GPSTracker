@@ -48,14 +48,15 @@ class MeasurementGPSService(private val measurementGPSRepository: MeasurementGPS
     fun findTopMeasurements(device: Device) =
             measurementService.getTopDateByDevice(device, PageRequest(0, 1))
                     .flatMap {
-                        measurementsToResponseDTO(measurementGPSRepository.findByDeviceAndTimeBetweenAndMeasurementDate(device, LocalTime.MIN, LocalTime.MAX, it))
+                        sortAndMapMeasurements(measurementGPSRepository.findByDeviceAndTimeBetweenAndMeasurementDate(device, LocalTime.MIN, LocalTime.MAX, it))
                     }
 
     fun findMeasurementsBetween(device: Device, startDate: LocalDate, endDate: LocalDate) =
-            measurementsToResponseDTO(measurementGPSRepository.findByDeviceAndTimeBetweenAndMeasurementDate_DateBetween(device, LocalTime.MIN, LocalTime.MAX, startDate, endDate))
+            sortAndMapMeasurements(measurementGPSRepository.findByDeviceAndTimeBetweenAndMeasurementDate_DateBetween(device, LocalTime.MIN, LocalTime.MAX, startDate, endDate))
 
-    private fun measurementsToResponseDTO(measurements: List<MeasurementGPS>): List<MeasurementResponseDTO> =
-            measurements.sortedByDescending { it.time }
+    private fun sortAndMapMeasurements(measurements: List<MeasurementGPS>): List<MeasurementResponseDTO> =
+            measurements
+                    .sortedByDescending { it.time }
                     .map { MeasurementResponseDTO(it) }
 
 }
