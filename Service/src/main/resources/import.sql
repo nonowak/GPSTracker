@@ -49,10 +49,18 @@ VALUES
 
 INSERT INTO public.measurement (id, measurement_type, time, device_id, measurement_date_id)
 VALUES
-  (1, 'gps', '11:42:00', 2, 1),
-  (2, 'gps', '11:42:00', 2, 1);
+  (1, 'gps', '11:40:00', 2, 1),
+  (2, 'gps', '11:41:00', 2, 1),
+  (3, 'gps', '11:42:00', 2, 1),
+  (4, 'gps', '11:43:00', 2, 1),
+  (5, 'gps', '11:44:00', 2, 1),
+  (6, 'gps', '11:44:00', 2, 2);
 
 INSERT INTO public.measurementgps (id, city_name, country_name, street_name, lat, lng)
 VALUES
   (1, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
-  (2, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841);
+  (2, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
+  (3, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
+  (4, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
+  (5, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
+  (6, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841);

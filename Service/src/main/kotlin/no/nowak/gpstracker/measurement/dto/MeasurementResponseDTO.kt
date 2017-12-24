@@ -7,11 +7,13 @@ import no.nowak.gpstracker.measurement.MeasurementGPS
 data class MeasurementResponseDTO(
         val address: GoogleAddress,
         val latLng: LatLng,
-        val measurementTime: String
-){
-    constructor(measurementGPS: MeasurementGPS): this(
+        val measurementTime: String,
+        val measurementDate: String
+) {
+    constructor(measurementGPS: MeasurementGPS) : this(
             latLng = measurementGPS.latLng,
             address = measurementGPS.address,
-            measurementTime = measurementGPS.time.toString()
+            measurementTime = measurementGPS.time.toString(),
+            measurementDate = measurementGPS.measurementDate.date.toString()
     )
 }

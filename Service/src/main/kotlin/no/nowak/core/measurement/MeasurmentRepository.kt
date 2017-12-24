@@ -14,6 +14,7 @@ import java.time.LocalTime
 interface MeasurmentRepository<T : Measurement> : JpaRepository<T, Int> {
     fun findByDevice_DeviceDictionary_TokenAndTimeBetweenAndMeasurementDate_Date(token: String, startTime: LocalTime, endTime: LocalTime, date: LocalDate): T
     fun findByDeviceAndTimeBetweenAndMeasurementDate(device: Device, startTime: LocalTime, endTime: LocalTime, measurementDate: MeasurementDate): List<T>
+    fun findByDeviceAndTimeBetweenAndMeasurementDate_DateBetween(device: Device, startTime: LocalTime, endTime: LocalTime, startDate: LocalDate, endDate: LocalDate): List<T>
 }
 
 interface MeasurementDateRepository : JpaRepository<MeasurementDate, Int> {

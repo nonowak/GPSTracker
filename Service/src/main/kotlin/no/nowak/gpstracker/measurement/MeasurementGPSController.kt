@@ -5,6 +5,7 @@ import no.nowak.core.infrastructure.exceptions.ServiceException
 import no.nowak.core.infrastructure.security.authorizationService.AuthorizationService
 import no.nowak.gpstracker.measurement.dto.MeasurementGPSDTO
 import no.nowak.gpstracker.measurement.dto.MeasurementResponseDTO
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
@@ -23,12 +24,12 @@ class MeasurementGPSController(private val measurementService: MeasurementGPSSer
     }
 
     override fun getMeasurementsBetweenDates(@PathVariable(MeasurementGPSApi.DEVICE_ID) deviceId: Device,
-                                             @RequestParam(MeasurementGPSApi.START_DATE, required = false) startDate: LocalDate?,
-                                             @RequestParam(MeasurementGPSApi.END_DATE, required = false) endDate: LocalDate?): List<MeasurementResponseDTO>? {
-        if(authorizationService.getCurrentUser().devices.none { it.device == deviceId }) throw ServiceException(HttpStatus.UNAUTHORIZED, "User not assigned to this device")
+                                             @RequestParam(MeasurementGPSApi.START_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate?,
+                                             @RequestParam(MeasurementGPSApi.END_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?): List<MeasurementResponseDTO>? {
+        if (authorizationService.getCurrentUser().devices.none { it.device == deviceId }) throw ServiceException(HttpStatus.UNAUTHORIZED, "User not assigned to this device")
         return if (startDate == null || endDate == null)
             measurementService.findTopMeasurements(deviceId)
         else
-            emptyList()
+            measurementService.findMeasurementsBetween(deviceId, startDate, endDate)
     }
 }

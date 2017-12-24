@@ -9,6 +9,7 @@ import no.nowak.core.infrastructure.Paths.GPS_PATH
 import no.nowak.core.infrastructure.exceptions.ServiceException
 import no.nowak.gpstracker.measurement.dto.MeasurementGPSDTO
 import no.nowak.gpstracker.measurement.dto.MeasurementResponseDTO
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -45,8 +46,8 @@ interface MeasurementGPSApi {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(GET_MEASURAMENTS)
     fun getMeasurementsBetweenDates(@PathVariable(DEVICE_ID) deviceId: Device,
-                                    @RequestParam(START_DATE, required = false) startDate: LocalDate?,
-                                    @RequestParam(END_DATE, required = false) endDate: LocalDate?): List<MeasurementResponseDTO>?
+                                    @RequestParam(START_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate?,
+                                    @RequestParam(END_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?): List<MeasurementResponseDTO>?
 
 
 }
