@@ -14,10 +14,10 @@ open class Measurement(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = null,
-//        @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-//        val device: Device,
+        @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        val device: Device,
         @Convert(converter = LocalTimeAttributeConverter::class)
-        val time: LocalTime = LocalTime.now(),
+        val time: LocalTime,
         @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         val measurementDate: MeasurementDate
 )

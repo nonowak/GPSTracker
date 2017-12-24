@@ -18,6 +18,9 @@ class DeviceDictionaryService(private val deviceDictionaryRepository: DeviceDict
         save(deviceDictionary)
     }
 
+    fun getByToken(token: String): DeviceDictionary? =
+            deviceDictionaryRepository.findByToken(token)
+
     fun getAllDevices(): List<DeviceDictionary> =
             deviceDictionaryRepository.findAll()
 

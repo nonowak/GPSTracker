@@ -9,4 +9,5 @@ import javax.validation.Valid
 class DeviceController(private val deviceService: DeviceService) : DeviceApi {
     override fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO) =
             deviceService.addDevice(deviceDTO)
+
 }

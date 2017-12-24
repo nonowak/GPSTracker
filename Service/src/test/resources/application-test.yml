@@ -1,6 +1,12 @@
-security:
-  basic:
-    enabled: false
+#security:
+#  basic:
+#    enabled: false
 spring:
   jpa:
-    show-sql: true
+    show-sql: false
+
+security:
+  ignored: /**
+management:
+  security:
+    enabled: false

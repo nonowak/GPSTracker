@@ -62,7 +62,7 @@ class AdminIntegrationTest {
                 .andReturn()
                 .response
         //Then
-        val savedDeviceDTO = DeviceDictionaryDTO(deviceDictionaryRepository.findOne(2))
+        val savedDeviceDTO = DeviceDictionaryDTO(deviceDictionaryRepository.findOne(3))
         val responseBody: DeviceDictionaryDTO = convertJsonToObject(response.contentAsString)
         Assert.assertTrue(savedDeviceDTO == responseBody)
         Assert.assertEquals(DeviceType.GPSTRACKER, responseBody.deviceType)
@@ -78,7 +78,7 @@ class AdminIntegrationTest {
         val response = mvc.perform(get(url)).andReturn().response
         //Then
         val responseBody: List<DeviceDictionaryDTO> = convertJsonToObject(response.contentAsString)
-        Assert.assertEquals(2, responseBody.size)
+        Assert.assertEquals(3, responseBody.size)
         Assert.assertTrue(responseBody.none { it.createdByEmailAddress == null || it.createdByEmailAddress == null })
     }
 }

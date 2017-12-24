@@ -1,10 +1,10 @@
 package no.nowak.gpstracker.measurement
 
+import com.google.maps.model.LatLng
 import no.nowak.core.device.Device
 import no.nowak.core.measurement.Measurement
 import no.nowak.core.measurement.MeasurementDate
-import no.nowak.gpstracker.latLng.LatLng
-import no.nowak.gpstracker.measurement.dto.MeasurementGPSDTO
+import no.nowak.gpstracker.google.GoogleAddress
 import java.time.LocalTime
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Embedded
@@ -13,17 +13,16 @@ import javax.persistence.Entity
 @Entity
 @DiscriminatorValue("gps")
 class MeasurementGPS(
-//        device: Device,
-        time: LocalTime,
         measurementDate: MeasurementDate,
+        device: Device,
+        time: LocalTime,
         @Embedded
         val latLng: LatLng,
         @Embedded
-        val countryName: String,
-        val cityName: String,
-        val streetName: String
+        val address: GoogleAddress
 ) : Measurement(
-//        device = device,
-        time = time,
-        measurementDate = measurementDate
+        measurementDate = measurementDate,
+        device = device,
+        time = time
 )
+
