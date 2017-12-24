@@ -1,7 +1,7 @@
 package no.nowak.core.device
 
-import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.device.Permission.OWNER
+import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.device.dto.DeviceWithLastMeasurementDateDTO
 import no.nowak.core.deviceDictionary.DeviceDictionaryService
 import no.nowak.core.infrastructure.exceptions.ServiceException

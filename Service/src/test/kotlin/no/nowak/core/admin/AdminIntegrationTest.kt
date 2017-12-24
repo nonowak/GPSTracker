@@ -7,8 +7,6 @@ import no.nowak.core.admin.dto.DeviceDictionaryDTO
 import no.nowak.core.device.DeviceType
 import no.nowak.core.deviceDictionary.DeviceDictionaryRepository
 import no.nowak.stubs.DeviceDictionaryStub
-import no.nowak.stubs.DeviceStub
-import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -20,8 +18,8 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders

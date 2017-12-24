@@ -6,7 +6,6 @@ import no.nowak.core.infrastructure.converters.LocalDateTimeAttributeConverter
 import org.jetbrains.annotations.NotNull
 import java.time.LocalDateTime
 import javax.persistence.Convert
-import javax.validation.constraints.Pattern
 
 data class DeviceDictionaryDTO(
         @field:NotNull

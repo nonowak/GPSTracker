@@ -3,7 +3,6 @@ package no.nowak.gpstracker.measurement
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
-import no.nowak.core.device.DeviceType
 import no.nowak.core.infrastructure.Paths
 import no.nowak.core.infrastructure.Paths.GPS_PATH
 import no.nowak.core.infrastructure.exceptions.ServiceException

@@ -3,7 +3,6 @@ package no.nowak.core.device
 import no.nowak.TestUtil.convertJsonToObject
 import no.nowak.TestUtil.convertObjectToJson
 import no.nowak.TestUtil.getPathForMethod
-import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.device.dto.DeviceWithLastMeasurementDateDTO
 import no.nowak.core.deviceDictionary.DeviceDictionaryRepository
 import no.nowak.stubs.DeviceStub

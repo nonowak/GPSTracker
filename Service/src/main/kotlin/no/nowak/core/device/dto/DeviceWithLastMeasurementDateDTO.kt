@@ -1,7 +1,6 @@
 package no.nowak.core.device.dto
 
 import no.nowak.core.device.Permission
-import no.nowak.core.measurement.MeasurementDate
 import no.nowak.core.user.UserDevice
 import java.time.LocalDate
 

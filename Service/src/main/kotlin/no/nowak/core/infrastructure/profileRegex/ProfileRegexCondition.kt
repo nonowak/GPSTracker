@@ -1,8 +1,8 @@
 package no.nowak.core.infrastructure.profileRegex
 
 import org.springframework.context.annotation.Condition
-import org.springframework.core.type.AnnotatedTypeMetadata
 import org.springframework.context.annotation.ConditionContext
+import org.springframework.core.type.AnnotatedTypeMetadata
 import java.util.regex.Pattern
 
 

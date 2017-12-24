@@ -4,7 +4,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
-import no.nowak.core.admin.dto.DeviceDictionaryDTO
 import no.nowak.core.device.dto.DeviceDTO
 import no.nowak.core.device.dto.DeviceWithLastMeasurementDateDTO
 import no.nowak.core.infrastructure.Paths

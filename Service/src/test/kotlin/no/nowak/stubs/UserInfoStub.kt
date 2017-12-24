@@ -1,7 +1,5 @@
 package no.nowak.stubs
 
-import no.nowak.core.address.Address
-import no.nowak.core.userDetails.UserInfo
 import no.nowak.core.userDetails.dto.UserInfoDTO
 
 class UserInfoStub {
