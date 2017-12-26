@@ -7,15 +7,17 @@ class Sim808 {
     String DEFAULT_RESPONSE = "OK";
     String sendAT(String command, int time);
     bool occurs(String command, String Response);
-    void setGPSMode();
+    void setAPN(String APN);
+    void resetGPRS();
+    void terminateHTTP();
 
   public:
     Sim808(SoftwareSerial * ss);
     void begin(uint32_t baud);
-    void initModem();
-    void checkModemStatus();
     void initGPRS(String APN);
-    String getLocalIP();
     void initGPS();
     String getGPS();
+    void sendJson(String url, String body);
+    String getValue(String data, char separator, int index);
+    void initHTTP();
 };

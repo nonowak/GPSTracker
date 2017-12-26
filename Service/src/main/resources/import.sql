@@ -37,30 +37,30 @@ VALUES
   (1, 1, 'OWNER'),
   (2, 1, 'OWNER');
 
-INSERT INTO public.measurement_date (id, date)
+INSERT INTO public.measurement_date (date)
 VALUES
-  (1, '2017-12-23'),
-  (2, '2017-12-22');
+  ('2017-12-23'),
+  ('2017-12-22');
 
 INSERT INTO public.measurement_date_devices (measurement_dates_id, devices_id)
 VALUES
   (1, 2),
   (2, 2);
 
-INSERT INTO public.measurement (id, measurement_type, time, device_id, measurement_date_id)
+INSERT INTO public.measurement (measurement_type, time, device_id, measurement_date_id)
 VALUES
-  (1, 'gps', '11:40:00', 2, 1),
-  (2, 'gps', '11:41:00', 2, 1),
-  (3, 'gps', '11:42:00', 2, 1),
-  (4, 'gps', '11:43:00', 2, 1),
-  (5, 'gps', '11:44:00', 2, 1),
-  (6, 'gps', '11:44:00', 2, 2);
+  ('gps', '11:40:00', 2, 1),
+  ('gps', '11:41:00', 2, 1),
+  ('gps', '11:42:00', 2, 1),
+  ('gps', '11:43:00', 2, 1),
+  ('gps', '11:44:00', 2, 1),
+  ('gps', '11:44:00', 2, 2);
 
-INSERT INTO public.measurementgps (id, city_name, country_name, street_name, lat, lng)
+INSERT INTO public.measurementgps (city_name, country_name, street_name, lat, lng, id)
 VALUES
-  (1, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
-  (2, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
-  (3, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
-  (4, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
-  (5, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841),
-  (6, 'Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841);
+  ('Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841, 1),
+  ('Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841, 2),
+  ('Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841, 3),
+  ('Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841, 4),
+  ('Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841, 5),
+  ('Psary Polskie', 'Poland', '193A', 52.343623300000004, 17.5344841, 6);
