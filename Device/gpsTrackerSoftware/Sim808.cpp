@@ -110,7 +110,7 @@ String Sim808::getGPS() {
 
 void Sim808::sendJson(String url, String body) {
   initHTTP();
-  String  response = sendAT("AT+HTTPPARA=\"URL\",\"http://ec39c92f.eu.ngrok.io/gps/measurements/h1rQ-BWZ9\"", 300);
+  String  response = sendAT("AT+HTTPPARA=\"URL\",\"" + url + "\"", 300);
   delay(400);
   Serial.println(response);
   response = sendAT("AT+HTTPPARA=\"CONTENT\",\"application/json\"", 100);
@@ -119,8 +119,6 @@ void Sim808::sendJson(String url, String body) {
   response = sendAT("AT+HTTPDATA=" + String(strlen(bodyChar)) + ",5000", 100);
   delay(400);
   Serial.println(response);
-  delay(100);
-  Serial.println("Setting JSON " + body);
   response = sendAT(body, 100);
   delay(2000);
   response = sendAT("AT+HTTPACTION=1", 400);
