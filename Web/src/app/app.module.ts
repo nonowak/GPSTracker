@@ -4,15 +4,16 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {HttpModule} from '@angular/http';
 
-
 import {AppComponent} from './app.component';
 import {LoginComponent} from './account/login.component';
+import {RegisterComponent} from './account/register.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +23,7 @@ import {LoginComponent} from './account/login.component';
       [
         {path: '', component: AppComponent}
       ]
-    )
+    ),
   ],
   providers: [],
   bootstrap: [AppComponent]

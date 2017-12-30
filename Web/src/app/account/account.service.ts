@@ -5,6 +5,7 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import {RegisterDTO} from './registerData';
 
 
 export class Foo {
@@ -17,6 +18,17 @@ export class Foo {
 export class AccountService {
 
   constructor(private _router: Router, private _http: Http) {
+  }
+
+  registerAccount(registerData: RegisterDTO) {
+    const headers = new Headers({'Content-type': 'application/json'});
+    console.log(JSON.stringify(registerData));
+    this._http.post('http://localhost:8080/users/register',
+      JSON.stringify(registerData),
+      {headers: headers})
+      .toPromise()
+      .then(() => null)
+      .catch(this.handleError);
   }
 
   obtainAccessToken(loginData) {
@@ -64,5 +76,10 @@ export class AccountService {
   logout() {
     Cookie.delete('access_token');
     this._router.navigate(['/login']);
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('Error', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 }

@@ -8,5 +8,12 @@ data class UserRegisterDTO(
         var emailAddress: String,
 
         @field:Pattern(regexp = "((?=.*\\d)(?=.*[A-Z]).{8,})", message = "Password must contains at least one number, one upper case and be 8")
-        var password: String
+        var password: String,
+        var firstName: String? = null,
+        var lastName: String? = null,
+        var countryName: String? = null,
+        var cityName: String? = null,
+        var streetName: String? = null,
+        @field:Pattern(regexp = "([0-9]{2}-[0-9]{3})", message = "Wrong postal code format")
+        var postalCode: String? = null
 )
