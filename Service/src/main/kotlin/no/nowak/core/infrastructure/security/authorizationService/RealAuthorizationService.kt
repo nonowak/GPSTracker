@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 @ProfileRegex("((authorizationService)|(!userFakeAuthorizationService)|(!adminFakeAuthorizationService))")
 class RealAuthorizationService(val userRepository: UserRepository) : AuthorizationService {
     override fun getCurrentUser(): User {
-        val emailAddress = (SecurityContextHolder.getContext().authentication.principal as CustomUserDetails).username
+        val emailAddress: String = SecurityContextHolder.getContext().authentication.principal as String
         return userRepository.findByEmailAddressIgnoreCase(emailAddress) ?: throw UsernameNotFoundException("User was not found in the database.")
     }
 }

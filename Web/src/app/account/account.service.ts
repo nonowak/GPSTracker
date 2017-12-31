@@ -2,17 +2,9 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Cookie} from 'ng2-cookies';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {RegisterDTO} from './registerData';
-
-
-export class Foo {
-  constructor(public id: number,
-              public name: string) {
-  }
-}
 
 @Injectable()
 export class AccountService {
@@ -39,7 +31,10 @@ export class AccountService {
     params.append('grant_type', 'password');
     params.append('client_id', 'gpsTracker');
 
-    const headers = new Headers({'Content-type': 'application/x-www-form-urlencoded;'});
+    const headers = new Headers({
+      'Content-type': 'application/x-www-form-urlencoded;',
+      'Authorization': 'Basic Z3BzVHJhY2tlcjpzZWNyZXQ='
+    });
     const options = new RequestOptions({headers: headers});
     console.log(params.toString());
     this._http.post('http://localhost:8080/oauth/token', params.toString(), options)
@@ -53,19 +48,8 @@ export class AccountService {
   saveToken(token) {
     const expireDate = new Date().getTime() + (1000 * token.expires_in);
     Cookie.set('access_token', token.access_token, expireDate);
-    console.log('Obtained Access Token');
-    this._router.navigate(['/']);
-  }
-
-  getResource(resourceUrl): Observable<Foo> {
-    const headers = new Headers({
-      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
-    });
-    const options = new RequestOptions({headers: headers});
-    return this._http.get(resourceUrl, options)
-      .map((res: Response) => res.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    console.log('Obtained Access Token' + token.access_token);
+    this._router.navigate(['/devices']);
   }
 
   checkCredentials() {

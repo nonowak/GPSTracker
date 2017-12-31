@@ -4,10 +4,11 @@ import no.nowak.core.user.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.io.Serializable
 
-class CustomUserDetails(private val user: User) : UserDetails {
+class CustomUserDetails(val user: User) : UserDetails, Serializable {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf(SimpleGrantedAuthority(user.role.name))
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf(SimpleGrantedAuthority("ROLE_" + user.role.name))
 
     override fun isEnabled(): Boolean = true
 

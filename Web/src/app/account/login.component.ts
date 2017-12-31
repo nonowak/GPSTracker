@@ -9,7 +9,7 @@ import {AccountService} from './account.service';
              name="ngModel"/>
       <input class="form-control col-sm-5" type="password" placeholder="Password" [(ngModel)]="loginData.password"
              name="ngModel"/>
-      <button type="submit" class="btn btn-primary col-sm-2" (click)="obtainAccessToken()">Sign In</button>
+      <button type="submit" class="btn btn-primary col-sm-2" (click)="login()">Sign In</button>
     </form>
   `,
 })
