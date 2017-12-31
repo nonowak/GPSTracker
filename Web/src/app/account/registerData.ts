@@ -1,3 +1,4 @@
+
 export class RegisterDTO {
   emailAddress: string;
   password: string;
@@ -7,4 +8,5 @@ export class RegisterDTO {
   cityName: string;
   streetName: string;
   postalCode: string;
+
 }

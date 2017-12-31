@@ -1,0 +1,8 @@
+html{
+  background-color: #f8f9fa;
+}
+.register-border{
+  height: 50%;
+  border: solid #343a40;
+  border-top: none;
+}

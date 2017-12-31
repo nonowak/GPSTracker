@@ -20,7 +20,7 @@ export class AccountService {
   constructor(private _router: Router, private _http: Http) {
   }
 
-  registerAccount(registerData: RegisterDTO) {
+  registerAccount(registerData: RegisterDTO, confirmPassword: string) {
     const headers = new Headers({'Content-type': 'application/json'});
     console.log(JSON.stringify(registerData));
     this._http.post('http://localhost:8080/users/register',
@@ -29,6 +29,7 @@ export class AccountService {
       .toPromise()
       .then(() => null)
       .catch(this.handleError);
+    return true;
   }
 
   obtainAccessToken(loginData) {
@@ -79,7 +80,7 @@ export class AccountService {
   }
 
   private handleError(error: any): Promise<any> {
-    console.error('Error', error); // for demo purposes only
+    console.error('Error', error);
     return Promise.reject(error.message || error);
   }
 }
