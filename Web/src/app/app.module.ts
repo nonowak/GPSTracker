@@ -8,6 +8,7 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './account/login.component';
 import {RegisterComponent} from './account/register.component';
 import {DeviceListComponent} from './gpsTracker/deviceList.component';
+import {MainPageComponent} from './account/mainPage.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {DeviceListComponent} from './gpsTracker/deviceList.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,7 @@ import {DeviceListComponent} from './gpsTracker/deviceList.component';
     HttpModule,
     RouterModule.forRoot(
       [
-        {path: '', component: AppComponent},
+        {path: '', component: MainPageComponent},
         {path: 'devices', component: DeviceListComponent}
       ]
     ),
