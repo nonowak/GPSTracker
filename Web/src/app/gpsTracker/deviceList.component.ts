@@ -1,20 +1,28 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DeviceService} from './device.service';
+import {DeviceDTO} from './deviceDTO';
 
 @Component({
   selector: 'app-devicelist',
   templateUrl: './deviceList.component.html',
   providers: [DeviceService]
 })
-export class DeviceListComponent {
+export class DeviceListComponent implements OnInit {
+  devices: DeviceDTO[];
+
   constructor(private _service: DeviceService) {
+  }
+
+  ngOnInit() {
+    this.getDevices();
   }
 
   getDevices() {
     this._service.getDevices()
       .subscribe(
-        data => console.log(JSON.stringify(data)),
-        error => console.log('Server Error')
-      );
+        data => this.devices = data,
+        error => console.log(error)
+      )
+    ;
   }
 }

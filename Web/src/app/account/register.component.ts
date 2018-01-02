@@ -5,47 +5,55 @@ import {RegisterDTO} from './registerData';
 @Component({
   selector: 'app-register',
   template: `
-      <form>
-        <div class="form-group">
-          <input type="email" class="form-control" [(ngModel)]="registerDTO.emailAddress" name="ngModel"
-                 placeholder="Email">
+    <form>
+      <div class="form-group">
+        <input type="email" class="form-control" [(ngModel)]="registerDTO.emailAddress" name="ngModel"
+               placeholder="Email">
+      </div>
+      <div class="form-group row">
+        <div class="col-md-6">
+          <input type="password" class="form-control" [(ngModel)]="registerDTO.password" name="ngModel"
+                 placeholder="Password">
         </div>
-        <div class="form-group">
-          <div class="form-inline">
-            <input type="password" class="form-control col-sm-6" [(ngModel)]="registerDTO.password" name="ngModel"
-                   placeholder="Password">
-            <input type="password" class="form-control col-sm-6" [(ngModel)]="confirmPassword" name="ngModel"
-                   placeholder="Confirm">
-          </div>
+        <div class="col-md-6">
+          <input type="password" class="form-control" [(ngModel)]="confirmPassword" name="ngModel"
+                 placeholder="Confirm">
         </div>
-        <div class="form-group">
-          <div class="form-inline">
-            <input type="text" class="form-control col-sm-6" [(ngModel)]="registerDTO.firstName" name="ngModel"
-                   placeholder="First Name">
-            <input type="text" class="form-control col-sm-6" [(ngModel)]="registerDTO.lastName" name="ngModel"
-                   placeholder="Last Name">
-          </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-6">
+          <input type="text" class="form-control" [(ngModel)]="registerDTO.firstName" name="ngModel"
+                 placeholder="First Name">
         </div>
-        <div class="form-group">
-          <div class="form-inline">
-            <input type="text" class="form-control col-sm-6" [(ngModel)]="registerDTO.countryName" name="ngModel"
-                   placeholder="Country">
-            <input type="text" class="form-control col-sm-6" [(ngModel)]="registerDTO.cityName" name="ngModel"
-                   placeholder="City">
-          </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" [(ngModel)]="registerDTO.lastName" name="ngModel"
+                 placeholder="Last Name">
         </div>
-        <div class="form-group">
-          <div class="form-inline">
-            <input type="text" class="form-control col-sm-6" [(ngModel)]="registerDTO.streetName" name="ngModel"
-                   placeholder="Street">
-            <input type="text" class="form-control col-sm-6" [(ngModel)]="registerDTO.postalCode" name="ngModel"
-                   placeholder="Postal Code">
-          </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-6">
+          <input type="text" class="form-control" [(ngModel)]="registerDTO.countryName" name="ngModel"
+                 placeholder="Country">
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-success" (click)="registerAccount()">Sign up</button>
+        <div class="col-md-6">
+          <input type="text" class="form-control" [(ngModel)]="registerDTO.cityName" name="ngModel"
+                 placeholder="City">
         </div>
-      </form>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-6">
+          <input type="text" class="form-control" [(ngModel)]="registerDTO.streetName" name="ngModel"
+                 placeholder="Street">
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" [(ngModel)]="registerDTO.postalCode" name="ngModel"
+                 placeholder="Postal Code">
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success" (click)="registerAccount()">Sign up</button>
+      </div>
+    </form>
   `
 })
 export class RegisterComponent {

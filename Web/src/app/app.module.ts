@@ -9,6 +9,7 @@ import {LoginComponent} from './account/login.component';
 import {RegisterComponent} from './account/register.component';
 import {DeviceListComponent} from './gpsTracker/deviceList.component';
 import {MainPageComponent} from './account/mainPage.component';
+import {NavbarComponent} from './navbar/navbar.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MainPageComponent} from './account/mainPage.component';
     LoginComponent,
     RegisterComponent,
     DeviceListComponent,
-    MainPageComponent
+    MainPageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

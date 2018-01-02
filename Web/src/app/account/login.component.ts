@@ -4,13 +4,20 @@ import {AccountService} from './account.service';
 @Component({
   selector: 'app-login',
   template: `
-    <form class="form-inline" role="form">
-      <input class="form-control col-sm-5" type="email" placeholder="Email" [(ngModel)]="loginData.username"
-             name="ngModel"/>
-      <input class="form-control col-sm-5" type="password" placeholder="Password" [(ngModel)]="loginData.password"
-             name="ngModel"/>
-      <button type="submit" class="btn btn-primary col-sm-2" (click)="login()">Sign In</button>
-    </form>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form id="signin" class="navbar-form navbar-right" role="form">
+        <div class="input-group">
+          <input class="form-control" type="email" placeholder="Email" [(ngModel)]="loginData.username" name="ngModel"/>
+        </div>
+
+        <div class="input-group">
+          <input class="form-control" type="password" placeholder="Password" [(ngModel)]="loginData.password"
+                 name="ngModel"/>
+        </div>
+
+        <button type="submit" class="btn btn-primary" (click)="login()">Sign In</button>
+      </form>
+    </div>
   `,
 })
 export class LoginComponent {

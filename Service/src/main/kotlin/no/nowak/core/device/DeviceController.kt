@@ -9,9 +9,9 @@ import javax.validation.Valid
 @RestController
 class DeviceController(private val deviceService: DeviceService) : DeviceApi {
 
-    override fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO): Map<DeviceType, List<DeviceWithLastMeasurementDateDTO>> =
+    override fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO):  List<DeviceWithLastMeasurementDateDTO> =
             deviceService.addDevice(deviceDTO)
 
-    override fun getUserDevices(): Map<DeviceType, List<DeviceWithLastMeasurementDateDTO>> =
+    override fun getUserDevices():  List<DeviceWithLastMeasurementDateDTO> =
             deviceService.getCurrentUserDevices()
 }

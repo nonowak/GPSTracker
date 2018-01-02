@@ -18,19 +18,19 @@ interface DeviceApi {
 
     @ApiOperation("Add Device")
     @ApiResponses(
-            ApiResponse(code = 201, message = "Device added to account", response = DeviceDTO::class, responseContainer = "Map"),
+            ApiResponse(code = 201, message = "Device added to account", response = DeviceWithLastMeasurementDateDTO::class, responseContainer = "List"),
             ApiResponse(code = 404, message = "Device not found", response = ServiceException::class),
             ApiResponse(code = 409, message = "Device is enabled", response = ServiceException::class)
     )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO): Map<DeviceType, List<DeviceWithLastMeasurementDateDTO>>
+    fun addDevice(@RequestBody @Valid deviceDTO: DeviceDTO): List<DeviceWithLastMeasurementDateDTO>
 
     @ApiOperation("Get Devices")
     @ApiResponses(
-            ApiResponse(code = 200, message = "Device added to account", response = DeviceDTO::class, responseContainer = "Map")
+            ApiResponse(code = 200, message = "Device added to account", response = DeviceWithLastMeasurementDateDTO::class, responseContainer = "List")
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
-    fun getUserDevices(): Map<DeviceType, List<DeviceWithLastMeasurementDateDTO>>
+    fun getUserDevices(): List<DeviceWithLastMeasurementDateDTO>
 }

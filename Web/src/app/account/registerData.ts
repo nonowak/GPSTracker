@@ -8,5 +8,4 @@ export class RegisterDTO {
   cityName: string;
   streetName: string;
   postalCode: string;
-
 }
