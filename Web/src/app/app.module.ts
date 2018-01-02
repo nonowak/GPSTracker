@@ -10,6 +10,7 @@ import {RegisterComponent} from './account/register.component';
 import {DeviceListComponent} from './gpsTracker/deviceList.component';
 import {MainPageComponent} from './account/mainPage.component';
 import {NavbarComponent} from './navbar/navbar.component';
+import {MapComponent} from "./map/map.component";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {NavbarComponent} from './navbar/navbar.component';
     RegisterComponent,
     DeviceListComponent,
     MainPageComponent,
-    NavbarComponent
+    NavbarComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +30,8 @@ import {NavbarComponent} from './navbar/navbar.component';
     RouterModule.forRoot(
       [
         {path: '', component: MainPageComponent},
-        {path: 'devices', component: DeviceListComponent}
+        {path: 'devices', component: DeviceListComponent},
+        {path: 'map/:deviceId', component: MapComponent}
       ]
     ),
   ],

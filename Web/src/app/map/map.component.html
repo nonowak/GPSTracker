@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-8">
+    <span class="align-content-center">MAP</span>
+  </div>
+  <div class="col-md-4">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Country</th>
+        <th>City</th>
+        <th>Street</th>
+        <th>Time</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let measurement of measurements">
+        <td>{{measurement.address.countryName}}</td>
+        <td>{{measurement.address.cityName}}</td>
+        <td>{{measurement.address.streetName}}</td>
+        <td>{{measurement.measurementTime}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

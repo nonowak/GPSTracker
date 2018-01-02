@@ -22,7 +22,10 @@ export class DeviceListComponent implements OnInit {
       .subscribe(
         data => this.devices = data,
         error => console.log(error)
-      )
-    ;
+      );
+  }
+
+  mapRedirect(deviceId: number) {
+    this._service.mapRedirect(deviceId);
   }
 }

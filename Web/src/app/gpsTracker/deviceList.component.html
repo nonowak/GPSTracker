@@ -11,21 +11,13 @@
   </thead>
   <tbody>
   <tr *ngFor="let device of devices">
+    <td>{{device.name}}</td>
+    <td>{{device.permission}}</td>
+    <td>{{device.lastMeasurementDate}}</td>
     <td>
-      {{device.name}}
+      <button type="submit" class="btn btn-success" (click)="mapRedirect(device.id)">Map</button>
     </td>
-    <td>
-      {{device.permission}}
-    </td>
-    <td>
-      {{device.lastMeasurementDate}}
-    </td>
-    <td>
-      Map
-    </td>
-    <td>
-      Update
-    </td>
+    <td>Update</td>
   </tr>
   </tbody>
 </table>
