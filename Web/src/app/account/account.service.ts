@@ -4,7 +4,9 @@ import {Cookie} from 'ng2-cookies';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {RegisterDTO} from './registerData';
+import {RegisterDTO} from './DTO/registerData';
+import {Observable} from "rxjs/Observable";
+import {UserDTO} from "./DTO/updateUser";
 
 @Injectable()
 export class AccountService {
@@ -52,19 +54,29 @@ export class AccountService {
     this._router.navigate(['/devices']);
   }
 
-  checkCredentials() {
-    if (!Cookie.check('access_token')) {
-      this._router.navigate(['/login']);
-    }
-  }
-
   logout() {
     Cookie.delete('access_token');
-    this._router.navigate(['/login']);
+    this._router.navigate(['/']);
   }
 
   private handleError(error: any): Promise<any> {
     console.error('Error', error);
     return Promise.reject(error.message || error);
+  }
+
+  getUserInfo(): Observable<UserDTO> {
+    const headers = new Headers({'Authorization': 'Bearer ' + Cookie.get('access_token')});
+    return this._http.get('http://localhost:8080/users/info', {headers: headers})
+      .map((res: any) => res.json())
+      .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  updateUser(userDTO: UserDTO): Observable<UserDTO> {
+    const headers = new Headers({
+      'Authorization': 'Bearer ' + Cookie.get('access_token'), 'Content-type': 'application/json'
+    });
+    return this._http.put('http://localhost:8080/users/info', JSON.stringify(userDTO), {headers: headers})
+      .map((res: any) => res.json())
+      .catch((error: any) => Observable.throw(error.json()));
   }
 }

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AccountService} from './account.service';
-import {RegisterDTO} from './registerData';
+import {RegisterDTO} from './DTO/registerData';
 
 @Component({
   selector: 'app-register',

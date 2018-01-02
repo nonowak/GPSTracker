@@ -23,7 +23,6 @@ export class DeviceService {
   }
 
   mapRedirect(deviceId: number) {
-    this._router.navigate(['/map', deviceId])
-    ;
+    this._router.navigate(['/map', deviceId]);
   }
 }
