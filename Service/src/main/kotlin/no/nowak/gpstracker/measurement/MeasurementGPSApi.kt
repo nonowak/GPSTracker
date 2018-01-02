@@ -1,6 +1,7 @@
 package no.nowak.gpstracker.measurement
 
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import no.nowak.core.device.Device
@@ -13,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import springfox.documentation.annotations.ApiIgnore
 import java.time.LocalDate
 import javax.validation.Valid
 
@@ -26,7 +28,7 @@ interface MeasurementGPSApi {
         const val END_DATE = "endDate"
 
         const val ADD_MEASUREMENT: String = "${Paths.MEASUREMENTS_PATH}/{$TOKEN}"
-        const val GET_MEASURAMENTS: String = "${Paths.MEASUREMENTS_PATH}/{$DEVICE_ID}"
+        const val GET_MEASUREMENTS: String = "${Paths.MEASUREMENTS_PATH}/{$DEVICE_ID}"
     }
 
     @ApiResponses(
@@ -39,15 +41,15 @@ interface MeasurementGPSApi {
     fun addMeasurement(@PathVariable(TOKEN) token: String,
                        @RequestBody @Valid measurementGPSDTO: MeasurementGPSDTO)
 
+    @ApiImplicitParam(name = "deviceId", value = "Device Id", paramType = "path", dataType = "int")
     @ApiResponses(
             ApiResponse(code = 200, message = "Measurements", response = MeasurementResponseDTO::class, responseContainer = "List"),
-            ApiResponse(code = 201, message = "ser not assigned to this device", response = String::class)
+            ApiResponse(code = 401, message = "User not assigned to this device", response = String::class)
     )
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(GET_MEASURAMENTS)
-    fun getMeasurementsBetweenDates(@PathVariable(DEVICE_ID) deviceId: Device,
+    @GetMapping(GET_MEASUREMENTS)
+    fun getMeasurementsBetweenDates(@PathVariable(DEVICE_ID) @ApiIgnore deviceId: Device,
                                     @RequestParam(START_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate?,
                                     @RequestParam(END_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?): List<MeasurementResponseDTO>?
-
 
 }

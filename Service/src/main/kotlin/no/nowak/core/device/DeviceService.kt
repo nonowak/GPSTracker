@@ -32,6 +32,7 @@ class DeviceService(private val authorizationService: AuthorizationService,
 
     fun getDeviceTypeDeviceLastMeasurementMap(user: User): List<DeviceWithLastMeasurementDateDTO> =
             user.devices.map { DeviceWithLastMeasurementDateDTO(it, measurementService.getTopDateByDevice(it.device).firstOrNull()?.date) }
+                    .sortedBy { it.lastMeasurementDate }
 
     fun save(device: Device): Device =
             deviceRepository.save(device)

@@ -8,7 +8,7 @@ import {DeviceDTO} from './deviceDTO';
   providers: [DeviceService]
 })
 export class DeviceListComponent implements OnInit {
-  devices: DeviceDTO[];
+  devices: DeviceDTO;
 
   constructor(private _service: DeviceService) {
   }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import springfox.documentation.annotations.ApiIgnore
 import java.time.LocalDate
 import javax.validation.Valid
 
@@ -23,7 +24,7 @@ class MeasurementGPSController(private val measurementService: MeasurementGPSSer
         measurementService.addMeasurement(token, measurementGPSDTO)
     }
 
-    override fun getMeasurementsBetweenDates(@PathVariable(MeasurementGPSApi.DEVICE_ID) deviceId: Device,
+    override fun getMeasurementsBetweenDates(@PathVariable(MeasurementGPSApi.DEVICE_ID) @ApiIgnore deviceId: Device,
                                              @RequestParam(MeasurementGPSApi.START_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate?,
                                              @RequestParam(MeasurementGPSApi.END_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?): List<MeasurementResponseDTO>? {
         if (authorizationService.getCurrentUser().devices.none { it.device == deviceId }) throw ServiceException(HttpStatus.UNAUTHORIZED, "User not assigned to this device")

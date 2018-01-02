@@ -14,15 +14,34 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 class SwaggerConfig {
 
     @Bean
-    fun GPSTrackerApi(): Docket {
+    fun CoreApi(): Docket {
 
         return Docket(DocumentationType.SWAGGER_2)
-                .groupName("GPSTracker")
+                .groupName("Core")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("no.nowak.core"))
                 .build()
                 .apiInfo(ApiInfo(
-                        "Bachelor Degree Project",
+                        "Core",
+                        "Core",
+                        "1.0",
+                        "",
+                        Contact("Norbert Nowak", "", "nonowak@outlook.com"),
+                        "",
+                        "",
+                        listOf()
+                ))
+    }
+
+    @Bean
+    fun GpsTrackerApi(): Docket {
+        return Docket(DocumentationType.SWAGGER_2)
+                .groupName("GPSTracker")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("no.nowak.gpstracker"))
+                .build()
+                .apiInfo(ApiInfo(
+                        "GPSTracker",
                         "GPSTracker",
                         "1.0",
                         "",
