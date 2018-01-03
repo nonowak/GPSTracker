@@ -7,9 +7,13 @@ import 'rxjs/add/operator/map';
 import {RegisterDTO} from './DTO/registerData';
 import {Observable} from "rxjs/Observable";
 import {UserDTO} from "./DTO/updateUser";
+import {JwtHelper} from "angular2-jwt";
 
 @Injectable()
 export class AccountService {
+
+  jwtHelper: JwtHelper = new JwtHelper();
+
 
   constructor(private _router: Router, private _http: Http) {
   }
@@ -78,5 +82,14 @@ export class AccountService {
     return this._http.put('http://localhost:8080/users/info', JSON.stringify(userDTO), {headers: headers})
       .map((res: any) => res.json())
       .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  isTokenExpired(): boolean {
+    if (Cookie.get('access_token')) {
+      return this.jwtHelper.isTokenExpired(Cookie.get('access_token'));
+    } else {
+      this._router.navigate(['']);
+      return true;
+    }
   }
 }

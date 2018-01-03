@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {HttpModule} from '@angular/http';
+import {Http, HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './account/login.component';
@@ -12,6 +12,7 @@ import {MainPageComponent} from './account/mainPage.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {MapComponent} from './map/map.component';
 import {UserInfoComponent} from './account/userInfo.component';
+import {AuthenticatedHttpService} from "./account/authenticated.service";
 
 
 @NgModule({
@@ -38,7 +39,9 @@ import {UserInfoComponent} from './account/userInfo.component';
       ]
     ),
   ],
-  providers: [],
+  providers: [
+    {provide: Http, useClass: AuthenticatedHttpService}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

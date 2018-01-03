@@ -3,19 +3,17 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/">GPS Tracker</a>
     </div>
-    <div [ngSwitch]="isTokenExpired()">
-      <div *ngSwitchCase="true">
-        <app-login></app-login>
-      </div>
-      <div *ngSwitchCase="false">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a [routerLink]="['devices']">My Devices</a></li>
-          <li><a [routerLink]="['userInfo']">User Details</a></li>
-          <li>
-            <button type="submit" class="btn btn-danger navbar-btn" (click)="logout()">Logout</button>
-          </li>
-        </ul>
-      </div>
+    <div *ngIf="_service.isTokenExpired()===true">
+      <app-login></app-login>
+    </div>
+    <div *ngIf="_service.isTokenExpired()===false">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a [routerLink]="['devices']">My Devices</a></li>
+        <li><a [routerLink]="['userInfo']">User Details</a></li>
+        <li>
+          <button type="submit" class="btn btn-danger navbar-btn" (click)="logout()">Logout</button>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
