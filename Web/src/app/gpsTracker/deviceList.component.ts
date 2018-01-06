@@ -1,28 +1,33 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {DeviceService} from './device.service';
 import {DeviceDTO} from './DTO/deviceDTO';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-devicelist',
   templateUrl: './deviceList.component.html',
   providers: [DeviceService]
 })
-export class DeviceListComponent implements OnInit {
-  devices: DeviceDTO;
+export class DeviceListComponent implements OnDestroy {
+
+  devices: DeviceDTO[];
+  deviceDTO: DeviceDTO = new DeviceDTO();
+  subscription: Subscription;
 
   constructor(private _service: DeviceService) {
+    this._service.getDevices();
+    this.subscription = this._service.deviceObs.subscribe(
+      device => {
+        this.devices = device;
+      }
+    );
   }
 
-  ngOnInit() {
-    this.getDevices();
+  addDevice() {
+    this._service.addDevice(this.deviceDTO);
   }
-
-  getDevices() {
-    this._service.getDevices()
-      .subscribe(
-        data => this.devices = data,
-        error => console.log(error)
-      );
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   mapRedirect(deviceId: number) {

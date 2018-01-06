@@ -30,6 +30,7 @@ class Device(
 ) : Serializable {
     constructor(deviceDTO: DeviceDTO, deviceDictionary: DeviceDictionary) : this(
             deviceType = deviceDTO.deviceType,
+            name = deviceDTO.name,
             deviceDictionary = deviceDictionary
     )
 

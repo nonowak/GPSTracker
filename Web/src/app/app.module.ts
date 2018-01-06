@@ -31,7 +31,8 @@ import {AdminComponent} from './admin/admin.component';
     MapComponent,
     UserInfoComponent,
     DatepickerComponent,
-    AdminComponent
+    AdminComponent,
+    // AddDeviceComponent
   ],
   imports: [
     BrowserModule,

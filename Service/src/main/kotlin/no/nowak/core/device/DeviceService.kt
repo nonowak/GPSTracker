@@ -16,6 +16,7 @@ class DeviceService(private val authorizationService: AuthorizationService,
                     private val deviceDictionaryService: DeviceDictionaryService,
                     private val deviceRepository: DeviceRepository,
                     private val measurementService: MeasurementService) {
+
     fun addDevice(deviceDTO: DeviceDTO): List<DeviceWithLastMeasurementDateDTO> {
         val deviceDictionary = deviceDictionaryService.getByTokenAndDeviceType(deviceDTO.token, deviceDTO.deviceType) ?: throw ServiceException(HttpStatus.NOT_FOUND, "Device not found")
         if (deviceDictionary.enabled) throw ServiceException(HttpStatus.CONFLICT, "Device is enabled")

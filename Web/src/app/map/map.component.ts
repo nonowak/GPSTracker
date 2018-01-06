@@ -38,9 +38,7 @@ export class MapComponent implements OnInit {
     this._service.getMeasurements(this.deviceId)
     this._service.measurementsObs.subscribe(
       data => {
-        console.log(data);
         this.measurements = data;
-        console.log(this.measurements);
       },
       error => console.log(error)
     );
