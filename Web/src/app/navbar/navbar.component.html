@@ -8,7 +8,10 @@
     </div>
     <div *ngIf="_service.isTokenExpired()===false">
       <ul class="nav navbar-nav navbar-right">
-        <li><a [routerLink]="['devices']">My Devices</a></li>
+        <li><a *ngIf="_service.decodeToken().authorities[0].authority === 'ROLE_ADMIN'" [routerLink]="['admins']">Devices</a>
+        </li>
+        <li><a *ngIf="_service.decodeToken().authorities[0].authority === 'ROLE_USER'" [routerLink]="['devices']">Devices</a>
+        </li>
         <li><a [routerLink]="['userInfo']">User Details</a></li>
         <li>
           <button type="submit" class="btn btn-danger navbar-btn" (click)="logout()">Logout</button>

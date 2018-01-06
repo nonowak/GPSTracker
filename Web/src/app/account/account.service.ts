@@ -5,9 +5,9 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {RegisterDTO} from './DTO/registerData';
-import {Observable} from "rxjs/Observable";
-import {UserDTO} from "./DTO/updateUser";
-import {JwtHelper} from "angular2-jwt";
+import {Observable} from 'rxjs/Observable';
+import {UserDTO} from './DTO/updateUser';
+import {JwtHelper} from 'angular2-jwt';
 
 @Injectable()
 export class AccountService {
@@ -54,8 +54,11 @@ export class AccountService {
   saveToken(token) {
     const expireDate = new Date().getTime() + (1000 * token.expires_in);
     Cookie.set('access_token', token.access_token, expireDate);
-    console.log('Obtained Access Token' + token.access_token);
-    this._router.navigate(['/devices']);
+    if (this.decodeToken().authorities[0].authority === 'ROLE_ADMIN') {
+      this._router.navigate(['/admins']);
+    } else {
+      this._router.navigate(['/devices']);
+    }
   }
 
   logout() {
@@ -66,6 +69,10 @@ export class AccountService {
   private handleError(error: any): Promise<any> {
     console.error('Error', error);
     return Promise.reject(error.message || error);
+  }
+
+  decodeToken() {
+    return this.jwtHelper.decodeToken(Cookie.get('access_token'));
   }
 
   getUserInfo(): Observable<UserDTO> {
@@ -88,7 +95,6 @@ export class AccountService {
     if (Cookie.get('access_token')) {
       return this.jwtHelper.isTokenExpired(Cookie.get('access_token'));
     } else {
-      this._router.navigate(['']);
       return true;
     }
   }

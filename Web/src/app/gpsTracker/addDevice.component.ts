@@ -7,25 +7,13 @@ import {DeviceDTO} from './DTO/deviceDTO';
   templateUrl: './deviceList.component.html',
   providers: [DeviceService]
 })
-export class DeviceListComponent implements OnInit {
+export class AddDeviceComponent {
   devices: DeviceDTO;
 
   constructor(private _service: DeviceService) {
   }
 
-  ngOnInit() {
-    this.getDevices();
-  }
-
-  getDevices() {
-    this._service.getDevices()
-      .subscribe(
-        data => this.devices = data,
-        error => console.log(error)
-      );
-  }
-
-  mapRedirect(deviceId: number) {
-    this._service.mapRedirect(deviceId);
+  addDevice(deviceDTO: DeviceDTO) {
+    this._service.addDevice(deviceDTO);
   }
 }

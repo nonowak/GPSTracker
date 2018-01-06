@@ -12,13 +12,14 @@ import org.springframework.stereotype.Service
 class AdminService(private val deviceDictionaryService: DeviceDictionaryService,
                    private val authorizationService: AuthorizationService) {
 
-    fun addDevice(deviceDictionaryDTO: DeviceDictionaryDTO): DeviceDictionaryDTO {
+    fun addDevice(deviceDictionaryDTO: DeviceDictionaryDTO): List<DeviceDictionaryDTO> {
         val deviceDictionary = DeviceDictionary(
                 createdBy = authorizationService.getCurrentUser(),
                 deviceType = deviceDictionaryDTO.deviceType,
                 token = generateToken(deviceDictionaryDTO.deviceType)
         )
-        return DeviceDictionaryDTO(deviceDictionaryService.addDevice(deviceDictionary))
+        DeviceDictionaryDTO(deviceDictionaryService.addDevice(deviceDictionary))
+        return getAllDevices();
     }
 
     fun getAllDevices(): List<DeviceDictionaryDTO> =

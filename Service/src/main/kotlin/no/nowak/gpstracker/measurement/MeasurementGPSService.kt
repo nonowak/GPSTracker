@@ -3,7 +3,9 @@ package no.nowak.gpstracker.measurement
 import com.google.maps.model.LatLng
 import no.nowak.core.device.Device
 import no.nowak.core.device.DeviceService
+import no.nowak.core.measurement.DTO.MeasurementFirstAndLastDateDTO
 import no.nowak.core.measurement.MeasurementDate
+import no.nowak.core.measurement.MeasurementDateRepository
 import no.nowak.core.measurement.MeasurementService
 import no.nowak.gpstracker.google.GoogleApiService
 import no.nowak.gpstracker.measurement.dto.MeasurementGPSDTO
@@ -18,6 +20,7 @@ import java.time.format.DateTimeFormatter
 @Service
 class MeasurementGPSService(private val measurementGPSRepository: MeasurementGPSRepository,
                             private val measurementService: MeasurementService,
+                            private val measurementDateRepository: MeasurementDateRepository,
                             private val deviceService: DeviceService,
                             private val googleApiService: GoogleApiService) {
 
@@ -54,9 +57,16 @@ class MeasurementGPSService(private val measurementGPSRepository: MeasurementGPS
     fun findMeasurementsBetween(device: Device, startDate: LocalDate, endDate: LocalDate) =
             sortAndMapMeasurements(measurementGPSRepository.findByDeviceAndTimeBetweenAndMeasurementDate_DateBetween(device, LocalTime.MIN, LocalTime.MAX, startDate, endDate))
 
+    fun findFirstAndLastMeasurementDate(device: Device): MeasurementFirstAndLastDateDTO {
+        return MeasurementFirstAndLastDateDTO(
+                earliestDate = measurementDateRepository.findEarliestDateByDevice(device),
+                lastDate = measurementDateRepository.findLastDateByDevice(device)
+        )
+    }
+
     private fun sortAndMapMeasurements(measurements: List<MeasurementGPS>): List<MeasurementResponseDTO> =
             measurements
-                    .sortedByDescending { it.time }
+                    .sortedByDescending { LocalDateTime.of(it.measurementDate.date, it.time) }
                     .map { MeasurementResponseDTO(it) }
 
 }

@@ -24,5 +24,13 @@ interface MeasurementDateRepository : JpaRepository<MeasurementDate, Int> {
             " JOIN m.devices d ON d = :device" +
             " ORDER By m.date DESC")
     fun findTopByDevice(@Param("device") device: Device,
-                            pageable: Pageable): Page<MeasurementDate>
+                        pageable: Pageable): Page<MeasurementDate>
+
+    @Query("SELECT min(m.date) FROM MeasurementDate m" +
+            " JOIN m.devices d ON d = :device")
+    fun findEarliestDateByDevice(@Param("device") device: Device): LocalDate
+
+    @Query("SELECT max(m.date) FROM MeasurementDate m" +
+            " JOIN m.devices d ON d = :device")
+    fun findLastDateByDevice(@Param("device") device: Device): LocalDate
 }

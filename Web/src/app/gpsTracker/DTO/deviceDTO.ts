@@ -1,9 +1,10 @@
 export class DeviceDTO {
   id: number;
-  deviceType: string;
+  deviceType = 'GPSTRACKER';
   name: string;
   lastMeasurementDate: string;
   permission: string;
+  token: string;
 
   constructor(instanceData?: DeviceDTO) {
     if (instanceData) {

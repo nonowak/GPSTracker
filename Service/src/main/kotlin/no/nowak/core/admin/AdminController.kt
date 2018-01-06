@@ -8,7 +8,7 @@ import javax.validation.Valid
 @RestController
 class AdminController(private val adminService: AdminService) : AdminApi {
 
-    override fun addDevice(@RequestBody @Valid deviceDictionaryDTO: DeviceDictionaryDTO): DeviceDictionaryDTO =
+    override fun addDevice(@RequestBody @Valid deviceDictionaryDTO: DeviceDictionaryDTO): List<DeviceDictionaryDTO> =
             adminService.addDevice(deviceDictionaryDTO)
 
     override fun getAllDevices(): List<DeviceDictionaryDTO> =

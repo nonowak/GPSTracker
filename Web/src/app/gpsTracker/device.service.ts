@@ -6,7 +6,7 @@ import {Cookie} from 'ng2-cookies';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {DeviceDTO} from './deviceDTO';
+import {DeviceDTO} from './DTO/deviceDTO';
 import {Router} from '@angular/router';
 
 @Injectable()
@@ -24,5 +24,16 @@ export class DeviceService {
 
   mapRedirect(deviceId: number) {
     this._router.navigate(['/map', deviceId]);
+  }
+
+  addDevice(deviceDTO: DeviceDTO) {
+    const headers = new Headers({
+      'Authorization': 'Bearer ' + Cookie.get('access_token'),
+      'Content-type': 'application/json'
+    });
+    return this._http.post('http://localhost:8080/devices', JSON.stringify(deviceDTO),
+      {headers: headers})
+      .map((res: any) => res.json())
+      .catch((error: any) => Observable.throw(error.json()));
   }
 }

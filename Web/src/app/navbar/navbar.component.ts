@@ -9,14 +9,7 @@ import {Cookie} from 'ng2-cookies';
   providers: [AccountService]
 })
 export class NavbarComponent {
-  jwtHelper: JwtHelper = new JwtHelper();
-  decodedToken: string;
-
   constructor(private _service: AccountService) {
-  }
-
-  decodeToken() {
-    return this.jwtHelper.decodeToken(Cookie.get('access_token'));
   }
 
   logout() {

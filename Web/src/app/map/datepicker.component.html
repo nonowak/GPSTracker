@@ -1,0 +1,47 @@
+<div class="col-md-6">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    {{button}}
+  </button>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog" style="width: 330px">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Pick Date Range</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <h5>All Measurements Range:</h5>
+        <p>{{parseDate(staticFromDate).toLocaleDateString()}} - {{parseDate(staticToDate).toLocaleDateString()}}</p>
+
+        <ngb-datepicker #dp ngModel (ngModelChange)="onDateChange($event)" [displayMonths]="2" [dayTemplate]="t"
+                        [startDate]="fromDate"
+                        [minDate]="staticFromDate" [maxDate]="staticToDate">
+        </ngb-datepicker>
+
+        <ng-template #t let-date="date" let-focused="focused">
+  <span class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+        </ng-template>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="getMeasurementsBetween()">Show
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

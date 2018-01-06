@@ -8,6 +8,7 @@ import no.nowak.core.device.Device
 import no.nowak.core.infrastructure.Paths
 import no.nowak.core.infrastructure.Paths.GPS_PATH
 import no.nowak.core.infrastructure.exceptions.ServiceException
+import no.nowak.core.measurement.DTO.MeasurementFirstAndLastDateDTO
 import no.nowak.gpstracker.measurement.dto.MeasurementGPSDTO
 import no.nowak.gpstracker.measurement.dto.MeasurementResponseDTO
 import org.springframework.format.annotation.DateTimeFormat
@@ -29,6 +30,7 @@ interface MeasurementGPSApi {
 
         const val ADD_MEASUREMENT: String = "${Paths.MEASUREMENTS_PATH}/{$TOKEN}"
         const val GET_MEASUREMENTS: String = "${Paths.MEASUREMENTS_PATH}/{$DEVICE_ID}"
+        const val GET_FIRST_AND_LAST_DATES: String = "${Paths.MEASUREMENTS_PATH}/{$DEVICE_ID}/dates"
     }
 
     @ApiResponses(
@@ -51,5 +53,14 @@ interface MeasurementGPSApi {
     fun getMeasurementsBetweenDates(@PathVariable(DEVICE_ID) @ApiIgnore deviceId: Device,
                                     @RequestParam(START_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startDate: LocalDate?,
                                     @RequestParam(END_DATE, required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate?): List<MeasurementResponseDTO>?
+
+    @ApiImplicitParam(name = "deviceId", value = "Device Id", paramType = "path", dataType = "int")
+    @ApiResponses(
+            ApiResponse(code = 200, message = "Measurements", response = MeasurementFirstAndLastDateDTO::class),
+            ApiResponse(code = 401, message = "User not assigned to this device", response = String::class)
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(GET_FIRST_AND_LAST_DATES)
+    fun getMeasurementsPeriod(@PathVariable(DEVICE_ID) @ApiIgnore deviceId: Device): MeasurementFirstAndLastDateDTO?
 
 }

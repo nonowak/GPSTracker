@@ -13,13 +13,15 @@ data class DeviceDictionaryDTO(
         @Convert(converter = LocalDateTimeAttributeConverter::class)
         val createdOn: LocalDateTime? = null,
         val createdByEmailAddress: String? = null,
-        var token: String? = null
+        var token: String? = null,
+        val enabled: Boolean = false
 ) {
     constructor(deviceDictionary: DeviceDictionary) : this(
             deviceType = deviceDictionary.deviceType,
             createdOn = deviceDictionary.createdOn,
             createdByEmailAddress = deviceDictionary.createdBy.emailAddress,
-            token = deviceDictionary.token
+            token = deviceDictionary.token,
+            enabled = deviceDictionary.enabled
     )
 
 

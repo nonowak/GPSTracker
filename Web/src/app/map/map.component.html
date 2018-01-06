@@ -1,26 +1,48 @@
-<div class="row">
-  <div class="col-md-8">
-    <span class="align-content-center">MAP</span>
-  </div>
-  <div class="col-md-4">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Country</th>
-        <th>City</th>
-        <th>Street</th>
-        <th>Time</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let measurement of measurements">
-        <td>{{measurement.address.countryName}}</td>
-        <td>{{measurement.address.cityName}}</td>
-        <td>{{measurement.address.streetName}}</td>
-        <td>{{measurement.measurementTime}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+<div style="margin-top:10px">
+  <div class="row">
+    <div class="col-md-7">
+      <agm-map #mapka style="height: 600px" [latitude]="52.279986" [longitude]="17.35229389999995" [usePanning]="true"
+               (mapReady)="setMap($event)">
+        <agm-marker-cluster [imagePath]="'https://googlemaps.github.io/js-marker-clusterer/images/m'">
+          <agm-marker
+            *ngFor="let measurement of measurements"
+            [latitude]="measurement.latLng.lat"
+            [longitude]="measurement.latLng.lng">
+          </agm-marker>
+        </agm-marker-cluster>
+      </agm-map>
+    </div>
+    <div class="col-md-5">
+      <div class="row">
+        <app-datepicker>
 
+        </app-datepicker>
+      </div>
+      <div class="row bodycontainer scrollable">
+        <table class="table table-scrollable">
+          <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Street</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let measurement of measurements">
+            <td>{{measurement.measurementDate}}</td>
+            <td>{{measurement.measurementTime.substring(0, measurement.measurementTime.length -3)}}</td>
+            <td>{{measurement.address.countryName}}</td>
+            <td>{{measurement.address.cityName}}</td>
+            <td>{{measurement.address.streetName}}</td>
+            <td>
+              <button class="btn-info" (click)="show(measurement)">Show</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

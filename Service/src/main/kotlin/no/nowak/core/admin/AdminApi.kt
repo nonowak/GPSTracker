@@ -20,13 +20,13 @@ interface AdminApi {
 
     @ApiOperation("Add new device")
     @ApiResponses(
-            ApiResponse(code = 201, message = "Device added", response = DeviceDictionaryDTO::class),
+            ApiResponse(code = 201, message = "Device added", response = DeviceDictionaryDTO::class, responseContainer = "List"),
             ApiResponse(code = 404, message = "Invalid deviceDictionary", response = String::class),
             ApiResponse(code = 409, message = "Device with this deviceDictionary already exists", response = String::class)
     )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(DEVICE_PATH)
-    fun addDevice(@RequestBody @Valid deviceDictionaryDTO: DeviceDictionaryDTO): DeviceDictionaryDTO
+    fun addDevice(@RequestBody @Valid deviceDictionaryDTO: DeviceDictionaryDTO): List<DeviceDictionaryDTO>
 
     @ApiOperation("Get all devices")
     @ApiResponses(

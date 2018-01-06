@@ -12,7 +12,12 @@ import {MainPageComponent} from './account/mainPage.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {MapComponent} from './map/map.component';
 import {UserInfoComponent} from './account/userInfo.component';
-import {AuthenticatedHttpService} from "./account/authenticated.service";
+import {AuthenticatedHttpService} from './account/authenticated.service';
+import {AgmCoreModule, LazyMapsAPILoaderConfigLiteral} from '@agm/core';
+import {AgmJsMarkerClustererModule} from '@agm/js-marker-clusterer';
+import {DatepickerComponent} from './map/datepicker.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {AdminComponent} from './admin/admin.component';
 
 
 @NgModule({
@@ -24,20 +29,28 @@ import {AuthenticatedHttpService} from "./account/authenticated.service";
     MainPageComponent,
     NavbarComponent,
     MapComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    DatepickerComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot(
       [
         {path: '', component: MainPageComponent},
         {path: 'devices', component: DeviceListComponent},
         {path: 'map/:deviceId', component: MapComponent},
-        {path: 'userInfo', component: UserInfoComponent}
+        {path: 'userInfo', component: UserInfoComponent},
+        {path: 'admins', component: AdminComponent},
       ]
     ),
+    AgmCoreModule.forRoot(<LazyMapsAPILoaderConfigLiteral>{
+      apiKey: 'AIzaSyAPHQ9DoyyOlULYeb4p49cvoVTCOH2f1Og'
+    }),
+    AgmJsMarkerClustererModule
   ],
   providers: [
     {provide: Http, useClass: AuthenticatedHttpService}
