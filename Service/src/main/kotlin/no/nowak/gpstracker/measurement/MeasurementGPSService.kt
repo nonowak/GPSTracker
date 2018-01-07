@@ -7,6 +7,7 @@ import no.nowak.core.measurement.DTO.MeasurementFirstAndLastDateDTO
 import no.nowak.core.measurement.MeasurementDate
 import no.nowak.core.measurement.MeasurementDateRepository
 import no.nowak.core.measurement.MeasurementService
+import no.nowak.gpstracker.google.GoogleAddress
 import no.nowak.gpstracker.google.GoogleApiService
 import no.nowak.gpstracker.measurement.dto.MeasurementGPSDTO
 import no.nowak.gpstracker.measurement.dto.MeasurementResponseDTO
@@ -28,7 +29,7 @@ class MeasurementGPSService(private val measurementGPSRepository: MeasurementGPS
 
     fun addMeasurement(token: String, measurementGPSDTO: MeasurementGPSDTO) {
         val latLng = LatLng(measurementGPSDTO.latitude, measurementGPSDTO.longitude)
-        val googleAddress = googleApiService.getAddressFromLatLng(latLng)
+        val googleAddress = googleApiService.getAddressFromLatLng(latLng)?: GoogleAddress()
         val measurementDateTime = LocalDateTime.parse(measurementGPSDTO.measurementTime, DATE_TIME_FORMATTER)
         val device = deviceService.getByToken(token)
         var measurementDate = measurementService.getByDate(measurementDateTime.toLocalDate())

@@ -1,5 +1,5 @@
 <div class="col-md-6">
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" (click)="setStaticDates()">
     {{button}}
   </button>
 </div>
@@ -17,11 +17,11 @@
       <!-- Modal body -->
       <div class="modal-body">
         <h5>All Measurements Range:</h5>
-        <p>{{parseDate(staticFromDate).toLocaleDateString()}} - {{parseDate(staticToDate).toLocaleDateString()}}</p>
+        <p>{{ngDateToString(staticFromDate)}} - {{ngDateToString(staticToDate)}}</p>
 
         <ngb-datepicker #dp ngModel (ngModelChange)="onDateChange($event)" [displayMonths]="2" [dayTemplate]="t"
-                        [startDate]="fromDate"
-                        [minDate]="staticFromDate" [maxDate]="staticToDate">
+                        [startDate]="fromDate">
+          <!--[minDate]="staticFromDate" [maxDate]="staticToDate">-->
         </ngb-datepicker>
 
         <ng-template #t let-date="date" let-focused="focused">

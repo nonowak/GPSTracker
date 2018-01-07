@@ -56,12 +56,21 @@ export class DatepickerComponent implements OnDestroy {
   constructor(private mapService: MapService, private calendar: NgbCalendar) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    this.staticToDate = calendar.getToday();
+    this.staticFromDate = calendar.getNext(calendar.getToday(), 'd', 10);
     this.subscription = this.mapService.deviceIdObs.subscribe(
       deviceId => {
         this.deviceId = deviceId;
         this.getDates(this.deviceId);
       }
     );
+  }
+
+  setStaticDates() {
+    if (!this.staticToDate) {
+      this.staticFromDate = this.fromDate;
+      this.staticToDate = this.toDate;
+    }
   }
 
   parseDate(date: NgbDateStruct): Date {
@@ -93,15 +102,13 @@ export class DatepickerComponent implements OnDestroy {
           this.falDate.earliestDate = new Date(data.earliestDate);
           this.falDate.lastDate = new Date(data.lastDate);
           this.fromDate = <NgbDateStruct>{
-            day: this.falDate.earliestDate.getUTCDate(), month: this.falDate.earliestDate.getUTCMonth(),
+            day: this.falDate.earliestDate.getUTCDate(), month: this.falDate.earliestDate.getUTCMonth() + 1,
             year: this.falDate.earliestDate.getUTCFullYear()
           };
           this.toDate = <NgbDateStruct>{
-            day: this.falDate.lastDate.getUTCDate(), month: this.falDate.lastDate.getUTCMonth(),
+            day: this.falDate.lastDate.getUTCDate(), month: this.falDate.lastDate.getUTCMonth() + 1,
             year: this.falDate.lastDate.getUTCFullYear()
           };
-          this.staticFromDate = this.fromDate;
-          this.staticToDate = this.toDate;
         });
   }
 
@@ -116,11 +123,15 @@ export class DatepickerComponent implements OnDestroy {
     }
   }
 
+  ngDateToString(date: NgbDateStruct): string {
+    return date.year + '-' + date.month + '-' + date.day;
+  }
+
   updateButton() {
     if (this.toDate == null) {
-      this.button = this.parseDate(this.fromDate).toLocaleDateString();
+      this.button = this.ngDateToString(this.fromDate);
     } else {
-      this.button = this.parseDate(this.fromDate).toLocaleDateString() + ' - ' + this.parseDate(this.toDate).toLocaleDateString();
+      this.button = this.ngDateToString(this.fromDate) + ' - ' + this.ngDateToString(this.toDate);
     }
   }
 

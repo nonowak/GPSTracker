@@ -32,7 +32,6 @@ import {AdminComponent} from './admin/admin.component';
     UserInfoComponent,
     DatepickerComponent,
     AdminComponent,
-    // AddDeviceComponent
   ],
   imports: [
     BrowserModule,

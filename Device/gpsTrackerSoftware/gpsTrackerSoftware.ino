@@ -6,7 +6,7 @@ SoftwareSerial ss(2, 3);
 Sim808 sim(&ss);
 String APN = "darmowy";
 String DEVICE_SERIAL = "h1rQ-BWZ9";
-String SERVER_ADDRESS = "http://ec39c92f.eu.ngrok.io";
+String SERVER_ADDRESS = "http://7822f73b.eu.ngrok.io";
 
 void setup() {
   Serial.begin(9600);
@@ -20,12 +20,10 @@ void setup() {
 
 void loop() {
   delay(500);
-  Serial.println("start");
   gpsToJSON();
 }
 
 void gpsToJSON() {
-  delay(1000);
   String gps = sim.getGPS();
   Serial.println(gps);
   String rawTime = sim.getValue(gps, ',', 2);
@@ -37,6 +35,5 @@ void gpsToJSON() {
   String url = SERVER_ADDRESS + "/gps/measurements/" + DEVICE_SERIAL;
   Serial.println(json);
   sim.sendJson(url, json);
-  Serial.println("endl");
 }
 

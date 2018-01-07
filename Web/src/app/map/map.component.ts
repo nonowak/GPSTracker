@@ -27,6 +27,7 @@ export class MapComponent implements OnInit {
       .subscribe(params => {
         this.deviceId = +params['deviceId'] || 0;
       });
+    this._service.getMeasurements(this.deviceId);
     this.getMeasurements();
   }
 
@@ -35,7 +36,6 @@ export class MapComponent implements OnInit {
   }
 
   getMeasurements() {
-    this._service.getMeasurements(this.deviceId)
     this._service.measurementsObs.subscribe(
       data => {
         this.measurements = data;
