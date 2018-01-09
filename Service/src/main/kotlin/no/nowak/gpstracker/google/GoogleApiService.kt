@@ -30,6 +30,6 @@ data class GoogleAddress(
     constructor(geocodingResult: GeocodingResult?) : this(
             countryName = geocodingResult?.addressComponents?.find { it.types.contains(AddressComponentType.COUNTRY) }?.longName ?: "",
             cityName = geocodingResult?.addressComponents?.find { it.types.contains(AddressComponentType.LOCALITY) }?.shortName ?: "",
-            streetName = geocodingResult?.addressComponents?.find { it.types.any { it == AddressComponentType.STREET_ADDRESS || it == AddressComponentType.PREMISE } }?.shortName ?: ""
+            streetName = geocodingResult?.addressComponents?.find { it.types.any { it == AddressComponentType.ROUTE || it == AddressComponentType.PREMISE } }?.shortName ?: ""
     )
 }
