@@ -47,7 +47,7 @@ void Sim808::initHTTP() {
 void Sim808::terminateHTTP() {
   Serial.println("Terminating HTTP");
   String response = sendAT("AT+HTTPTERM", 200);
-  sendAT("AT+SAPBR=0,1", 200);
+  resetGPRS();
   //  if (!occurs(DEFAULT_RESPONSE, response))
   //    terminateHTTP();
   Serial.println("HTTP Terminated");
@@ -105,7 +105,7 @@ String Sim808::getGPS() {
   while (!occurs(",", response)) {
     Serial.print(F("Getting GPS..."));
     Serial.println("ERROR: " + response);
-    response = sendAT("AT+CNPSINF", 100);
+    response = sendAT("AT+CGNSINF", 100);
     resetCounter++;
     if (resetCounter == 3)
       resetGPRS();
