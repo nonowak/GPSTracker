@@ -47,6 +47,6 @@ export class MapComponent implements OnInit {
   show(measurement: MeasurementDTO) {
     console.log(this.map);
     this.map.panTo(new google.maps.LatLng(measurement.latLng.lat, measurement.latLng.lng));
-    this.map.setZoom(20);
+    this.map.setZoom(17);
   }
 }

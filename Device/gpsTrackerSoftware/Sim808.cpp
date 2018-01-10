@@ -14,7 +14,10 @@ String Sim808::sendAT(String command, int time)
 }
 
 void Sim808::resetGPRS() {
+  Serial.println("State: " + sendAT("AT+CFUN?", 100));
   sendAT("AT+SAPBR=0,1", 100);
+  String response = sendAT("AT+CFUN=1", 100);
+  Serial.println("Reset" + response);
 }
 
 bool Sim808::occurs(String command, String response) {
@@ -29,16 +32,18 @@ void Sim808::initHTTP() {
   bool done = false;
   int resetCounter = 0;
   while (!done) {
+    if (resetCounter > 3)
+      resetGPRS();
     if (!occurs(DEFAULT_RESPONSE, response))
       done = false;
     else(done = true);
     response = sendAT("AT+HTTPPARA=\"CID\",1", 100);
     if (!occurs(DEFAULT_RESPONSE, response))
       done = false;
-    else(done = true);
+    else {
+      done = true;
+    }
     resetCounter++;
-    if (resetCounter == 3)
-      resetGPRS();
   }
   response = sendAT("AT+SAPBR=1,1", 100);
   Serial.println("HTTP READY");
@@ -47,9 +52,7 @@ void Sim808::initHTTP() {
 void Sim808::terminateHTTP() {
   Serial.println("Terminating HTTP");
   String response = sendAT("AT+HTTPTERM", 200);
-  resetGPRS();
-  //  if (!occurs(DEFAULT_RESPONSE, response))
-  //    terminateHTTP();
+//  initGPRS();
   Serial.println("HTTP Terminated");
 }
 
@@ -71,20 +74,18 @@ void Sim808::initGPRS(String APN) {
   bool finish = false;
   int resetCounter = 0;
   String response;
-  while (!finish) {
-    response = sendAT("AT+CREG?", 100);
-    Serial.println("Registration Status..." + response);
-    response = sendAT("AT+SAPBR=3,1,\"Contype\",\"GPRS\"", 100);
-    Serial.println("Configure Bearer..." + response);
-    response = sendAT("AT+SAPBR=3,1,\"APN\",\"" + APN + "\"", 100);
-    Serial.println("Configure Bearer APN..." + response);
-    response = sendAT("AT+SAPBR=1,1", 100);
-    if (occurs(DEFAULT_RESPONSE, response))
-      finish = true;
-    resetCounter++;
-    if (resetCounter == 3)
-      resetGPRS();
-  }
+  resetGPRS();
+  response = sendAT("AT+CREG?", 100);
+  Serial.println("Registration Status..." + response);
+  response = sendAT("AT+SAPBR=3,1,\"Contype\",\"GPRS\"", 100);
+  Serial.println("Configure Bearer..." + response);
+  response = sendAT("AT+SAPBR=3,1,\"APN\",\"" + APN + "\"", 100);
+  if (!occurs(DEFAULT_RESPONSE, response))
+    initGPRS(APN);
+  Serial.println("Configure Bearer APN..." + response);
+  response = sendAT("AT+SAPBR=1,1", 100);
+  if (!occurs(DEFAULT_RESPONSE, response))
+    initGPRS(APN);
   response = sendAT("AT+SAPBR=2,1", 100);
   Serial.println("Configure finished..." + response);
 }
@@ -103,12 +104,12 @@ String Sim808::getGPS() {
   String response = sendAT("AT+CGNSINF", 100);
   int resetCounter = 0;
   while (!occurs(",", response)) {
+    if (resetCounter > 3)
+      resetGPRS();
     Serial.print(F("Getting GPS..."));
     Serial.println("ERROR: " + response);
     response = sendAT("AT+CGNSINF", 100);
     resetCounter++;
-    if (resetCounter == 3)
-      resetGPRS();
   };
   response = response.substring(10, response.length());
   return response;

@@ -20,7 +20,7 @@ export class DeviceService {
 
   getDevices() {
     const headers = new Headers({'Authorization': 'Bearer ' + Cookie.get('access_token')});
-    return this._http.get('http://localhost:8080/devices', {headers: headers})
+    return this._http.get('http://e6632eca.eu.ngrok.io/devices', {headers: headers})
       .toPromise()
       .then(
         response => {
@@ -39,12 +39,13 @@ export class DeviceService {
       'Authorization': 'Bearer ' + Cookie.get('access_token'),
       'Content-type': 'application/json'
     });
-    return this._http.post('http://localhost:8080/devices', JSON.stringify(deviceDTO),
+    return this._http.post('http://e6632eca.eu.ngrok.io/devices', JSON.stringify(deviceDTO),
       {headers: headers})
       .toPromise()
       .then(
         response => {
           const devices = response.json() as DeviceDTO[];
+          alert('Device added ' + deviceDTO.token);
           this.devices.next(devices);
         }
       ).catch((error: any) => {

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {MapService} from './map.service';
 import {FirstAndLastMeasurementDateDTO} from './DTO/FirstAndLastMeasurementDateDTO';
@@ -41,7 +41,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     }
   `]
 })
-export class DatepickerComponent implements OnDestroy {
+export class DatepickerComponent implements OnDestroy, OnInit {
 
   @Input() deviceId: number;
   hoveredDate: NgbDateStruct;
@@ -54,10 +54,6 @@ export class DatepickerComponent implements OnDestroy {
   button = 'Change Date Range';
 
   constructor(private mapService: MapService, private calendar: NgbCalendar) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
-    this.staticToDate = calendar.getToday();
-    this.staticFromDate = calendar.getNext(calendar.getToday(), 'd', 10);
     this.subscription = this.mapService.deviceIdObs.subscribe(
       deviceId => {
         this.deviceId = deviceId;
@@ -79,6 +75,11 @@ export class DatepickerComponent implements OnDestroy {
     } else {
       return null;
     }
+  }
+
+  ngOnInit() {
+    this.staticFromDate = this.fromDate;
+    this.staticToDate = this.toDate;
   }
 
   ngOnDestroy() {

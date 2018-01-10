@@ -25,7 +25,7 @@ export class MapService {
   getMeasurements(deviceId) {
     this.deviceId.next(deviceId);
     const headers = new Headers({'Authorization': 'Bearer ' + Cookie.get('access_token')});
-    this._http.get('http://localhost:8080/gps/measurements/' + deviceId.toString(), {headers: headers})
+    this._http.get('http://e6632eca.eu.ngrok.io/gps/measurements/' + deviceId.toString(), {headers: headers})
       .toPromise()
       .then(response => {
         const measurementsa = response.json() as MeasurementDTO[];
@@ -35,7 +35,7 @@ export class MapService {
 
   getFirstAndLastMeasurement(deviceId): Observable<FirstAndLastMeasurementDateDTO> {
     const headers = new Headers({'Authorization': 'Bearer ' + Cookie.get('access_token')});
-    return this._http.get('http://localhost:8080/gps/measurements/'
+    return this._http.get('http://e6632eca.eu.ngrok.io/gps/measurements/'
       + deviceId.toString() + '/dates', {headers: headers})
       .map((res: any) => res.json())
       .catch((error: any) => Observable.throw(error.json()));
@@ -43,7 +43,7 @@ export class MapService {
 
   getMeasuramentsBetween(deviceId, fromDate: Date, toDate: Date) {
     const headers = new Headers({'Authorization': 'Bearer ' + Cookie.get('access_token')});
-    return this._http.get('http://localhost:8080/gps/measurements/'
+    return this._http.get('http://e6632eca.eu.ngrok.io/gps/measurements/'
       + deviceId.toString() + '?startDate=' + this.toISOdate(fromDate) + '&endDate=' + this.toISOdate(toDate),
       {headers: headers})
       .toPromise()

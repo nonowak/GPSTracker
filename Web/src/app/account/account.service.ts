@@ -21,7 +21,7 @@ export class AccountService {
   registerAccount(registerData: RegisterDTO, confirmPassword: string) {
     const headers = new Headers({'Content-type': 'application/json'});
     console.log(JSON.stringify(registerData));
-    this._http.post('http://localhost:8080/users/register',
+    this._http.post('http://e6632eca.eu.ngrok.io/users/register',
       JSON.stringify(registerData),
       {headers: headers})
       .toPromise()
@@ -43,7 +43,7 @@ export class AccountService {
     });
     const options = new RequestOptions({headers: headers});
     console.log(params.toString());
-    this._http.post('http://localhost:8080/oauth/token', params.toString(), options)
+    this._http.post('http://e6632eca.eu.ngrok.io/oauth/token', params.toString(), options)
       .map(res => res.json())
       .subscribe(
         data => this.saveToken(data),
@@ -77,7 +77,7 @@ export class AccountService {
 
   getUserInfo(): Observable<UserDTO> {
     const headers = new Headers({'Authorization': 'Bearer ' + Cookie.get('access_token')});
-    return this._http.get('http://localhost:8080/users/info', {headers: headers})
+    return this._http.get('http://e6632eca.eu.ngrok.io/users/info', {headers: headers})
       .map((res: any) => res.json())
       .catch((error: any) => Observable.throw(error.json()));
   }
@@ -86,7 +86,7 @@ export class AccountService {
     const headers = new Headers({
       'Authorization': 'Bearer ' + Cookie.get('access_token'), 'Content-type': 'application/json'
     });
-    return this._http.put('http://localhost:8080/users/info', JSON.stringify(userDTO), {headers: headers})
+    return this._http.put('http://e6632eca.eu.ngrok.io/users/info', JSON.stringify(userDTO), {headers: headers})
       .map((res: any) => res.json())
       .catch((error: any) => Observable.throw(error.json()));
   }
