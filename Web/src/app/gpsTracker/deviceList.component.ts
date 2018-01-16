@@ -24,8 +24,14 @@ export class DeviceListComponent implements OnDestroy {
   }
 
   addDevice() {
-    this._service.addDevice(this.deviceDTO);
+    console.log(this.deviceDTO);
+    if (this.deviceDTO.token != null &&
+      this.deviceDTO.name != null) {
+      this._service.addDevice(this.deviceDTO);
+      this.deviceDTO = new DeviceDTO();
+    }
   }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

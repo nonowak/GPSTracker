@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
 import org.springframework.security.oauth2.common.OAuth2AccessToken
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
@@ -26,7 +27,6 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
     @Autowired
     lateinit var authenticationManager: AuthenticationManager
-
 
     override fun configure(clients: ClientDetailsServiceConfigurer?) {
         clients!!.inMemory()

@@ -54,6 +54,8 @@ export class DatepickerComponent implements OnDestroy, OnInit {
   button = 'Change Date Range';
 
   constructor(private mapService: MapService, private calendar: NgbCalendar) {
+    this.fromDate = calendar.getToday();
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
     this.subscription = this.mapService.deviceIdObs.subscribe(
       deviceId => {
         this.deviceId = deviceId;
@@ -63,7 +65,12 @@ export class DatepickerComponent implements OnDestroy, OnInit {
   }
 
   setStaticDates() {
-    if (!this.staticToDate) {
+    console.log(this.staticFromDate);
+    console.log(this.calendar.getToday());
+    if (this.staticFromDate.year === this.calendar.getToday().year &&
+      this.staticFromDate.month === this.calendar.getToday().month &&
+      this.staticFromDate.day === this.calendar.getToday().day) {
+      console.log('fD' + this.fromDate);
       this.staticFromDate = this.fromDate;
       this.staticToDate = this.toDate;
     }

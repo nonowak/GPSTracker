@@ -32,18 +32,16 @@ void Sim808::initHTTP() {
   bool done = false;
   int resetCounter = 0;
   while (!done) {
-    if (resetCounter > 3)
-      resetGPRS();
     if (!occurs(DEFAULT_RESPONSE, response))
       done = false;
     else(done = true);
     response = sendAT("AT+HTTPPARA=\"CID\",1", 100);
     if (!occurs(DEFAULT_RESPONSE, response))
       done = false;
-    else {
-      done = true;
-    }
+    else(done = true);
     resetCounter++;
+    if (resetCounter == 3)
+      resetGPRS();
   }
   response = sendAT("AT+SAPBR=1,1", 100);
   Serial.println("HTTP READY");
@@ -52,8 +50,8 @@ void Sim808::initHTTP() {
 void Sim808::terminateHTTP() {
   Serial.println("Terminating HTTP");
   String response = sendAT("AT+HTTPTERM", 200);
-//  initGPRS();
   Serial.println("HTTP Terminated");
+  //initGPRS();
 }
 
 Sim808::Sim808(SoftwareSerial * ss) {
@@ -78,8 +76,9 @@ void Sim808::initGPRS(String APN) {
   response = sendAT("AT+CREG?", 100);
   Serial.println("Registration Status..." + response);
   response = sendAT("AT+SAPBR=3,1,\"Contype\",\"GPRS\"", 100);
-  Serial.println("Configure Bearer..." + response);
+  Serial.println("Configure ContentType..." + response);
   response = sendAT("AT+SAPBR=3,1,\"APN\",\"" + APN + "\"", 100);
+  Serial.println("Configure APN..." + response);
   if (!occurs(DEFAULT_RESPONSE, response))
     initGPRS(APN);
   Serial.println("Configure Bearer APN..." + response);

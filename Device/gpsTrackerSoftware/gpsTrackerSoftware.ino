@@ -6,7 +6,7 @@ SoftwareSerial ss(2, 3);
 Sim808 sim(&ss);
 String APN = "darmowy";
 String DEVICE_SERIAL = "h1rQ-BWZ9";
-String SERVER_ADDRESS = "http://localhost:8080";
+String SERVER_ADDRESS = "http://a75192fc.eu.ngrok.io";
 
 void setup() {
   Serial.begin(9600);

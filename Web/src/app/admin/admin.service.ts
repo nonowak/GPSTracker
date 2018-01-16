@@ -20,7 +20,7 @@ export class AdminService {
       'Authorization': 'Bearer ' + Cookie.get('access_token'),
       'Content-type': 'application/json'
     });
-    return this._http.post('http://e6632eca.eu.ngrok.io/admins/devices', JSON.stringify(deviceDTO),
+    return this._http.post('http://a75192fc.eu.ngrok.io/admins/devices', JSON.stringify(deviceDTO),
       {headers: headers})
       .map((res: any) => res.json())
       .catch((error: any) => Observable.throw(error.json()));
@@ -28,8 +28,9 @@ export class AdminService {
 
   getDevices(): Observable<DeviceDictionaryDTO[]> {
     const headers = new Headers({'Authorization': 'Bearer ' + Cookie.get('access_token')});
-    return this._http.get('http://e6632eca.eu.ngrok.io/admins/devices', {headers: headers})
+    return this._http.get('http://a75192fc.eu.ngrok.io/admins/devices', {headers: headers})
       .map((res: any) => res.json())
       .catch((error: any) => Observable.throw(error.json()));
   }
 }
+
