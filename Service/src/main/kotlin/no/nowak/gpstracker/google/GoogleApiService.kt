@@ -20,15 +20,13 @@ class GoogleApiService {
         val rooftopGeocodingResult = GeocodingApi.reverseGeocode(context, latLng)
                 .locationType(LocationType.ROOFTOP)
                 .await().firstOrNull()
-
-        val geometricCenterGeocodingResult = GeocodingApi.reverseGeocode(context, latLng)
-                .locationType(LocationType.GEOMETRIC_CENTER)
-                .await().firstOrNull()
-
-        return when {
-            rooftopGeocodingResult != null -> GoogleAddress(rooftopGeocodingResult)
-            geometricCenterGeocodingResult != null -> GoogleAddress(geometricCenterGeocodingResult)
-            else -> GoogleAddress(GeocodingApi.reverseGeocode(context, latLng)
+        return if (rooftopGeocodingResult != null) GoogleAddress(rooftopGeocodingResult)
+        else {
+            val geometricCenterGeocodingResult = GeocodingApi.reverseGeocode(context, latLng)
+                    .locationType(LocationType.GEOMETRIC_CENTER)
+                    .await().firstOrNull()
+            if (geometricCenterGeocodingResult != null) GoogleAddress(geometricCenterGeocodingResult)
+            else GoogleAddress(GeocodingApi.reverseGeocode(context, latLng)
                     .locationType(LocationType.APPROXIMATE)
                     .await().firstOrNull())
         }
@@ -43,6 +41,9 @@ data class GoogleAddress(
     constructor(geocodingResult: GeocodingResult?) : this(
             countryName = geocodingResult?.addressComponents?.find { it.types.contains(AddressComponentType.COUNTRY) }?.longName ?: "",
             cityName = geocodingResult?.addressComponents?.find { it.types.contains(AddressComponentType.LOCALITY) }?.shortName ?: "",
-            streetName = geocodingResult?.addressComponents?.find { it.types.any { it == AddressComponentType.ROUTE || it == AddressComponentType.PREMISE } }?.shortName ?: ""
+            streetName = geocodingResult?.addressComponents?.find { it.types.any { it == AddressComponentType.STREET_ADDRESS || it == AddressComponentType.ROUTE || it == AddressComponentType.PREMISE }}?.shortName.orEmpty()
+                    + " "
+                    + geocodingResult?.addressComponents?.find { it.types.contains(AddressComponentType.STREET_NUMBER) }?.longName.orEmpty()
+
     )
 }
