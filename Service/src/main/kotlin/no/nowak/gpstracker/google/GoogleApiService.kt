@@ -16,7 +16,13 @@ class GoogleApiService {
                 .apiKey(key)
                 .build()
 
-        return GoogleAddress(GeocodingApi.reverseGeocode(context, latLng)
+
+        val rooftopGeocodingResult = GeocodingApi.reverseGeocode(context, latLng)
+                .locationType(LocationType.ROOFTOP)
+                .await().firstOrNull()
+
+        return if(rooftopGeocodingResult != null) GoogleAddress(rooftopGeocodingResult) else
+            GoogleAddress(GeocodingApi.reverseGeocode(context, latLng)
                 .locationType(LocationType.APPROXIMATE)
                 .await().firstOrNull())
     }
