@@ -72,19 +72,20 @@ void Sim808::initGPRS(String APN) {
   bool finish = false;
   int resetCounter = 0;
   String response;
-  resetGPRS();
-  response = sendAT("AT+CREG?", 100);
-  Serial.println("Registration Status..." + response);
-  response = sendAT("AT+SAPBR=3,1,\"Contype\",\"GPRS\"", 100);
-  Serial.println("Configure ContentType..." + response);
-  response = sendAT("AT+SAPBR=3,1,\"APN\",\"" + APN + "\"", 100);
-  Serial.println("Configure APN..." + response);
-  if (!occurs(DEFAULT_RESPONSE, response))
-    initGPRS(APN);
-  Serial.println("Configure Bearer APN..." + response);
-  response = sendAT("AT+SAPBR=1,1", 100);
-  if (!occurs(DEFAULT_RESPONSE, response))
-    initGPRS(APN);
+  while (!finish) {
+    response = sendAT("AT+CREG?", 100);
+    Serial.println("Registration Status..." + response);
+    response = sendAT("AT+SAPBR=3,1,\"Contype\",\"GPRS\"", 100);
+    Serial.println("Configure Bearer..." + response);
+    response = sendAT("AT+SAPBR=3,1,\"APN\",\"" + APN + "\"", 100);
+    Serial.println("Configure Bearer APN..." + response);
+    response = sendAT("AT+SAPBR=1,1", 100);
+    if (occurs(DEFAULT_RESPONSE, response))
+      finish = true;
+    resetCounter++;
+    if (resetCounter == 3)
+      resetGPRS();
+  }
   response = sendAT("AT+SAPBR=2,1", 100);
   Serial.println("Configure finished..." + response);
 }
@@ -132,7 +133,7 @@ void Sim808::sendJson(String url, String body) {
   response = sendAT("AT+HTTPREAD", 200);
   Serial.println("Sending datta: " + response);
   terminateHTTP();
-  //  resetGPRS();
+  //    resetGPRS();
 }
 
 String Sim808::getValue(String data, char separator, int index) {
