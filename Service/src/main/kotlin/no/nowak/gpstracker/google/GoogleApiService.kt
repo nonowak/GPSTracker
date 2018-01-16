@@ -21,10 +21,17 @@ class GoogleApiService {
                 .locationType(LocationType.ROOFTOP)
                 .await().firstOrNull()
 
-        return if(rooftopGeocodingResult != null) GoogleAddress(rooftopGeocodingResult) else
-            GoogleAddress(GeocodingApi.reverseGeocode(context, latLng)
-                .locationType(LocationType.APPROXIMATE)
-                .await().firstOrNull())
+        val geometricCenterGeocodingResult = GeocodingApi.reverseGeocode(context, latLng)
+                .locationType(LocationType.GEOMETRIC_CENTER)
+                .await().firstOrNull()
+
+        return when {
+            rooftopGeocodingResult != null -> GoogleAddress(rooftopGeocodingResult)
+            geometricCenterGeocodingResult != null -> GoogleAddress(geometricCenterGeocodingResult)
+            else -> GoogleAddress(GeocodingApi.reverseGeocode(context, latLng)
+                    .locationType(LocationType.APPROXIMATE)
+                    .await().firstOrNull())
+        }
     }
 }
 
