@@ -14,10 +14,7 @@ String Sim808::sendAT(String command, int time)
 }
 
 void Sim808::resetGPRS() {
-  Serial.println("State: " + sendAT("AT+CFUN?", 100));
   sendAT("AT+SAPBR=0,1", 100);
-  String response = sendAT("AT+CFUN=1", 100);
-  Serial.println("Reset" + response);
 }
 
 bool Sim808::occurs(String command, String response) {
@@ -50,8 +47,10 @@ void Sim808::initHTTP() {
 void Sim808::terminateHTTP() {
   Serial.println("Terminating HTTP");
   String response = sendAT("AT+HTTPTERM", 200);
+  resetGPRS();
+  //  if (!occurs(DEFAULT_RESPONSE, response))
+  //    terminateHTTP();
   Serial.println("HTTP Terminated");
-  //initGPRS();
 }
 
 Sim808::Sim808(SoftwareSerial * ss) {
@@ -104,36 +103,35 @@ String Sim808::getGPS() {
   String response = sendAT("AT+CGNSINF", 100);
   int resetCounter = 0;
   while (!occurs(",", response)) {
-    if (resetCounter > 3)
-      resetGPRS();
     Serial.print(F("Getting GPS..."));
     Serial.println("ERROR: " + response);
     response = sendAT("AT+CGNSINF", 100);
     resetCounter++;
+    if (resetCounter == 3)
+      resetGPRS();
   };
   response = response.substring(10, response.length());
   return response;
 }
 
 void Sim808::sendJson(String url, String body) {
-  initHTTP();
   String  response = sendAT("AT+HTTPPARA=\"URL\",\"" + url + "\"", 300);
   delay(400);
   Serial.println(response);
   response = sendAT("AT+HTTPPARA=\"CONTENT\",\"application/json\"", 100);
   Serial.println("Setting content type: " + response);
   const char *bodyChar = body.c_str();
-  response = sendAT("AT+HTTPDATA=" + String(strlen(bodyChar)) + ",5000", 100);
+  response = sendAT("AT+HTTPDATA=" + String(strlen(bodyChar)) + ",2000", 100);
   delay(400);
   Serial.println(response);
   response = sendAT(body, 100);
-  delay(2000);
+  delay(200);
   response = sendAT("AT+HTTPACTION=1", 400);
   Serial.println("Action: " + response);
   response = sendAT("AT+HTTPREAD", 200);
   Serial.println("Sending datta: " + response);
-  terminateHTTP();
-  //    resetGPRS();
+//  terminateHTTP();
+  //  resetGPRS();
 }
 
 String Sim808::getValue(String data, char separator, int index) {
