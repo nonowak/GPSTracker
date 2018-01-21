@@ -1,4 +1,4 @@
-package no.nowak.core.measurement
+ package no.nowak.core.measurement
 
 import no.nowak.core.device.Device
 import no.nowak.core.infrastructure.converters.LocalDateAttributeConverter

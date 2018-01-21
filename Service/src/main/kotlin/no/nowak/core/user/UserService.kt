@@ -42,4 +42,6 @@ class UserService(private val userRepository: UserRepository,
     fun getByActivationKey(activationKey: String): User =
             userRepository.findByActivationKey(activationKey) ?: throw ServiceException(HttpStatus.NOT_FOUND, "User with this activationKey not found")
 
+    fun getByEmailAddressIgnoreCase(emailAddress: String): User =
+            userRepository.findByEmailAddressIgnoreCase(emailAddress) ?: throw ServiceException(HttpStatus.NOT_FOUND, "User with this emailAddress not found")
 }

@@ -6,7 +6,7 @@ SoftwareSerial ss(2, 3);
 Sim808 sim(&ss);
 String APN = "darmowy";
 String DEVICE_SERIAL = "h1rQ-BWZ9";
-String SERVER_ADDRESS = "http://d95cf10c.eu.ngrok.io";
+String SERVER_ADDRESS = "http://ef7e1e31.eu.ngrok.io";
 
 void setup() {
   Serial.begin(9600);
@@ -21,7 +21,7 @@ void setup() {
 }
 
 void loop() {
-  delay(500);
+  delay(10000);
   gpsToJSON();
 }
 

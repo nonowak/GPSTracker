@@ -56,7 +56,15 @@
     <td>
       <button type="submit" class="btn btn-success" (click)="mapRedirect(device.id)">Map</button>
     </td>
-    <td>Update</td>
+    <td>
+      <div *ngIf="device.permission === 'OWNER'">
+        <button type="submit" class="btn btn-warning" (click)="deviceDetailsRedirect(device.id)">Update</button>
+      </div>
+      <div *ngIf="device.permission !== 'OWNER'">
+        <button type="submit" class="btn btn-warning" (click)="deviceDetailsRedirect(device.id)" disabled>Update
+        </button>
+      </div>
+    </td>
   </tr>
   </tbody>
 </table>

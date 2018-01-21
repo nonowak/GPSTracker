@@ -1,0 +1,52 @@
+<div style="margin-top:10px">
+  <div class="row">
+    <div class="col-md-6">
+      <form novalidate id="updateDeviceName" role="form">
+        <label>Device Name</label>
+        <div class="row">
+          <div class="col-md-8">
+            <input class="form-control" type="text" [(ngModel)]="deviceNameDTO.name"
+                   name="deviceNameDTO.name"/>
+          </div>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-warning" (click)="update()">Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <form novalidate id="addUserDevice" role="form">
+        <label>Email Address</label>
+        <div class="row">
+          <div class="col-md-8">
+            <input class="form-control" type="text" [(ngModel)]="newUserDeviceDTO.emailAddress"
+                   name="newUserDeviceDTO.emailAddress"/>
+          </div>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-warning" (click)="addUserDevice()">Add User Device</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="row bodycontainer scrollable">
+      <table class="table table-scrollable">
+        <thead>
+        <tr>
+          <th>Email Address</th>
+          <th>Permission</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of deviceDetails.users">
+          <td>{{user.emailAddress}}</td>
+          <td>{{user.permission}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -34,7 +34,8 @@ interface UserApi {
     @ApiOperation("Activate User")
     @ApiResponses(
             ApiResponse(code = 200, message = "User enabled", response = String::class),
-            ApiResponse(code = 404, message = "User with this activationKey not found", response = ServiceException::class),
+            ApiResponse(code = 404, message = "User with this activationKey not found",
+                    response = ServiceException::class),
             ApiResponse(code = 400, message = "User is enabled", response = ServiceException::class)
     )
     @GetMapping(ACTIVATION_PATH)

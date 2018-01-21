@@ -1,22 +1,30 @@
 INSERT INTO address (country_name, city_name, postal_code, street_name)
 VALUES
   ('Poland', 'Poznań', '61-138', 'Piotrowo'),
+  ('Poland', 'Poznań', '61-138', 'Piotrowo'),
+  ('Poland', 'Poznań', '61-138', 'Piotrowo'),
   ('Poland', 'Poznań', '61-138', 'Piotrowo');
 
 INSERT INTO user_info (first_name, last_name, address_id)
 VALUES
   ('Test', 'Testowy', 1),
+  ('Test', 'Testowy1', 1),
+  ('Test', 'Testowy2', 1),
   ('Admin', 'Adminowy', 2);
 
 INSERT INTO password (current_hash, modified_on, previous_hash, locked_during_reset)
 VALUES
+  ('$2a$10$f6d6Rzr30AdZZamZu2DlUu23/8BwwA6i4QsqCNqqq1SgTIUmKDov6', NULL, NULL, FALSE), --TesT123456--
+  ('$2a$10$f6d6Rzr30AdZZamZu2DlUu23/8BwwA6i4QsqCNqqq1SgTIUmKDov6', NULL, NULL, FALSE), --TesT123456--
   ('$2a$10$f6d6Rzr30AdZZamZu2DlUu23/8BwwA6i4QsqCNqqq1SgTIUmKDov6', NULL, NULL, FALSE), --TesT123456--
   ('$2a$10$f6d6Rzr30AdZZamZu2DlUu23/8BwwA6i4QsqCNqqq1SgTIUmKDov6', NULL, NULL, FALSE); --TesT123456--
 
 INSERT INTO "user" (email_address, password_id, user_info_id, enabled, role)
 VALUES
   ('test@test.pl', 1, 1, TRUE, 'USER'),
-  ('admin@test.pl', 2, 2, TRUE, 'ADMIN');
+  ('test1@test.pl', 2, 2, TRUE, 'USER'),
+  ('test2@test.pl', 3, 3, TRUE, 'USER'),
+  ('admin@test.pl', 4, 4, TRUE, 'ADMIN');
 
 INSERT INTO public.device_dictionary (created_on, device_type, enabled, token, created_by_id)
 VALUES
@@ -35,7 +43,9 @@ VALUES
 INSERT INTO user_device (device_id, user_id, permission)
 VALUES
   (1, 1, 'OWNER'),
-  (2, 1, 'OWNER');
+  (2, 1, 'OWNER'),
+  (1, 2, 'USER'),
+  (1, 3, 'USER');
 
 INSERT INTO public.measurement_date (date)
 VALUES

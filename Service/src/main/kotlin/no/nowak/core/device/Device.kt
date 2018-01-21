@@ -14,7 +14,7 @@ class Device(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = null,
 
-        val name: String = "",
+        var name: String = "",
         @OneToMany(mappedBy = "device", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         val users: MutableList<UserDevice> = mutableListOf(),
 

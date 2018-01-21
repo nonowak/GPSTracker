@@ -34,6 +34,10 @@ export class DeviceService {
     this._router.navigate(['/map', deviceId]);
   }
 
+  deviceDetailsRedirect(deviceId: number) {
+    this._router.navigate(['/deviceDetails', deviceId]);
+  }
+
   addDevice(deviceDTO: DeviceDTO) {
     const headers = new Headers({
       'Authorization': 'Bearer ' + Cookie.get('access_token'),

@@ -18,6 +18,7 @@ import {AgmJsMarkerClustererModule} from '@agm/js-marker-clusterer';
 import {DatepickerComponent} from './map/datepicker.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AdminComponent} from './admin/admin.component';
+import {DeviceDetailsComponent} from "./deviceDetails/deviceDetails.component";
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {AdminComponent} from './admin/admin.component';
     UserInfoComponent,
     DatepickerComponent,
     AdminComponent,
+    DeviceDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import {AdminComponent} from './admin/admin.component';
         {path: 'map/:deviceId', component: MapComponent},
         {path: 'userInfo', component: UserInfoComponent},
         {path: 'admins', component: AdminComponent},
+        {path: 'deviceDetails/:deviceId', component: DeviceDetailsComponent},
       ]
     ),
     AgmCoreModule.forRoot(<LazyMapsAPILoaderConfigLiteral>{

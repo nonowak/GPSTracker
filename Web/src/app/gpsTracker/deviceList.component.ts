@@ -39,4 +39,7 @@ export class DeviceListComponent implements OnDestroy {
   mapRedirect(deviceId: number) {
     this._service.mapRedirect(deviceId);
   }
+  deviceDetailsRedirect(deviceId: number) {
+    this._service.deviceDetailsRedirect(deviceId);
+  }
 }
